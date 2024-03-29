@@ -3,7 +3,11 @@ name: ci
 on:
   push:
     branches:
-      - "Develop"
+
+      - "develop"
+
+
+
 
 jobs:
   docker:
