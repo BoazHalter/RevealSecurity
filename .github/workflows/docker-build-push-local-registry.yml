@@ -3,9 +3,7 @@ name: ci
 on:
   push:
     branches:
-
       - "main"
-
 jobs:
   docker:
     runs-on: ubuntu-latest
@@ -32,12 +30,16 @@ jobs:
       - name: Inspect
         run: |
           docker buildx imagetools inspect localhost:5000/name/app:latest
-      - name: Install kubectl
-        uses: azure/setup-kubectl@v3
-        with:
-          version: latest # default is latest stable
-        id: install
+      - name: Check if Kubernetes cluster exists
+        id: check_cluster
+        run: |
+          if kubectl get nodes >/dev/null 2>&1; then
+            echo "::set-output name=cluster_exists::true"
+          else
+            echo "::set-output name=cluster_exists::false"
+          fi
       - name: Install Minikube
+        if: steps.check_cluster.outputs.cluster_exists == 'false'
         run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
