@@ -47,12 +47,19 @@ jobs:
           else
             echo "::set-output name=cluster_exists::false"
           fi
-      - name: Install Minikube
-        if: steps.check_cluster.outputs.cluster_exists == 'false'
-        run: |
-          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          sudo install minikube-linux-amd64 /usr/local/bin/minikube
-          minikube start
-          kubectl get po -A
+      #- name: Install Minikube
+      #  if: steps.check_cluster.outputs.cluster_exists == 'false'
+      #  run: |
+        #  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        #  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+         # minikube start
+       #   kubectl get po -A
+      - uses: Azure/k8s-deploy@v5
+        with:
+           namespace: 'myapp'
+           manifests: |
+             dir/manifestsDirectory
+           images: localhost:5000/name/app:latest
+
 
 
