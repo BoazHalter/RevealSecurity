@@ -14,6 +14,10 @@ jobs:
         image: registry:2
         ports:
           - 5000:5000
+    steps:
+      - name: registry-up
+        run: |
+          echo 'registry-up'
   docker-build-and-push:
     timeout-minutes: 120
     runs-on: ubuntu-latest
