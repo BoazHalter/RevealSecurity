@@ -34,6 +34,7 @@ jobs:
       - name: Inspect
         run: |
           docker buildx imagetools inspect 127.0.0.1:5000/name/app:latest
+          cat /etc/docker/daemon.json
       
       - name: Install Minikube
         run: |
