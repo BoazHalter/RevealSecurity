@@ -46,7 +46,7 @@ jobs:
           kubectl create secret generic  docker-registry-secret \
           --from-file=.dockerconfigjson=~/.docker/config.json \
           --type=kubernetes.io/dockerconfigjson
-        
+          
       - name: Deploy To K8S
         run: |
           kubectl apply -f deployment.yaml
