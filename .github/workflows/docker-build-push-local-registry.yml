@@ -36,5 +36,8 @@ jobs:
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
           minikube start
           #kubectl get po -A
+      - name: Deploy To K8S
+        run: |
+          kubectl apply -f deployment.yaml
       
 
