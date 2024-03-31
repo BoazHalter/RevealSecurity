@@ -48,4 +48,4 @@ jobs:
         NODE_PORT=${NODE_PORT::-4}
         echo $NODE_PORT
         kubectl cluster-info
-        curl --connect-timeout 10 -kvi "http://$POD_HOST:$NODE_PORT"
+        curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
