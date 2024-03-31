@@ -19,3 +19,16 @@ spec:
         - containerPort: 80
       imagePullSecrets:
       - name: docker-registry-secret
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-php-service
+spec:
+  selector:
+    app: nginx-php
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: ClusterIP
