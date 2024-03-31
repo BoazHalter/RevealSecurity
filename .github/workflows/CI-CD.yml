@@ -47,4 +47,4 @@ jobs:
         echo ${NODE_PORT::-4}
         NODE_PORT=${NODE_PORT::-4}
         echo $NODE_PORT
-        curl -kvhi 'http://$POD_HOST:$NODE_PORT'
+        curl -kvi 'http://$POD_HOST:$NODE_PORT'
