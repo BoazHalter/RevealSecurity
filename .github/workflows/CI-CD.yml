@@ -43,6 +43,8 @@ jobs:
     - name: Deploy To K8S
       run: |
         kubectl apply -f deployment.yaml
+        kubectl expose deployment nginx-php-deployment --type=NodePort --name=nginx-php-service
+
       
     - name: Validate Service up
       run: |
