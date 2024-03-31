@@ -38,7 +38,8 @@ jobs:
     - name: Validate Service up
       run: |
         sleep 20
-        kubectl get pod  --template '{{.status.podIP}}'
+        podName=`kubectl get pods --no-headers -o custom-columns=":metadata.name"`
+        kubectl get pod $podName --template '{{.status.podIP}}'
         kubectl describe pod
         kubectl get pods --selector="app=nginx-php" --output=wide
         kubectl get pods --selector="app=nginx-php" --template={{.status.podIP}}
