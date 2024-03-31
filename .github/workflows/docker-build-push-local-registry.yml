@@ -47,5 +47,5 @@ jobs:
       
       - name: Validate Service up
         run: |
-          kubectl get po 
+          kubectl get deployments -A
           curl localhost:80
