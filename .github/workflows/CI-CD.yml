@@ -34,13 +34,16 @@ jobs:
       - name: Inspect
         run: |
           docker buildx imagetools inspect 127.0.0.1:5000/name/app:latest
-          cat /etc/docker/daemon.json
-      
+          
       - name: Install Minikube
         run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
           minikube start --insecure-registry 127.0.0.1:5000
+      - name: Replace daemon file
+        run: |  
+          rm -f /etc/docker/daemon.json
+          cp daemon.json /etc/docker/
       - name: Create Registry Secret
         run: |
           kubectl create secret generic regcred \
