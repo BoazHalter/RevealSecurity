@@ -34,7 +34,6 @@ jobs:
       - name: Inspect
         run: |
           docker buildx imagetools inspect localhost:5000/name/app:latest
-          cat ~/.docker/config.json
       
       - name: Install Minikube
         run: |
@@ -44,7 +43,7 @@ jobs:
           
       - name: Create Registry Secret
         run: |
-          kubectl create secret generic regcred \
+          kubectl create secret generic  docker-registry-secret \
           --from-file=.dockerconfigjson=~/.docker/config.json \
           --type=kubernetes.io/dockerconfigjson
         
