@@ -8,56 +8,48 @@ jobs:
     timeout-minutes: 120
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
 
-      - name: Login Docker Hub
-        run: |
-          docker login
+    - name: Login Docker Hub
+      run: |
+        docker login
           
-      - name: Build Docker Image
-        run: |
+    - name: Build Docker Image
+      run: |
           docker build . -t boazhalter/revealsecurity/name/app:latest
           
-      - name: Push Docker Image
-        run: |
-          docker push boazhalter/revealsecurity/name/app:latest
-        uses: docker/setup-buildx-action@v3
-        with:
-          driver-opts: network=host
+    - name: Push Docker Image
+      run: |
+        docker push boazhalter/revealsecurity/name/app:latest
+        
+    - name: Install Minikube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+        minikube start 
       
+    - name: Replace daemon file
+      run: |  
+        sudo rm -f /etc/docker/daemon.json
+        sudo cp daemon.json /etc/docker/
       
-      #- name: Inspect
-      #  run: |
-      #    docker inspect boazhalter/revealsecurity/name/app:latest
-      
-      - name: Install Minikube
-        run: |
-          curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-          sudo install minikube-linux-amd64 /usr/local/bin/minikube
-          minikube start 
-      
-      - name: Replace daemon file
-        run: |  
-          sudo rm -f /etc/docker/daemon.json
-          sudo cp daemon.json /etc/docker/
-      
-      - name: Create Registry Secret
-        run: |
-          kubectl create secret generic regcred \
-          --from-file=.dockerconfigjson=/home/runner/.docker/config.json \
-          --type=kubernetes.io/dockerconfigjson
+    - name: Create Registry Secret
+      run: |
+        kubectl create secret generic regcred \
+        --from-file=.dockerconfigjson=/home/runner/.docker/config.json \
+        --type=kubernetes.io/dockerconfigjson
           
-      - name: Deploy To K8S
-        run: |
-          kubectl apply -f deployment.yaml
+    - name: Deploy To K8S
+      run: |
+        kubectl apply -f deployment.yaml
       
-      - name: Validate Service up
-        run: |
-          sleep 10
-          kubectl describe pod 
-          sleep 10
-          kubectl describe pod
-          sleep 10
-          kubectl describe pod
+    - name: Validate Service up
+      run: |
+        sleep 10
+        kubectl describe pod 
+        sleep 10
+        kubectl describe pod
+        sleep 10
+        kubectl describe pod
           curl localhost:80
