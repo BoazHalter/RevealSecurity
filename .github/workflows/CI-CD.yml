@@ -45,4 +45,4 @@ jobs:
         echo ${NODE_PORT::-4}
         NODE_PORT=${NODE_PORT::-4}
         echo $NODE_PORT
-        curl $POD_HOST:${NODE_PORT}
+        curl -k -LO -vi $POD_HOST:$NODE_PORT
