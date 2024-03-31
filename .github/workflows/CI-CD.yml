@@ -42,4 +42,6 @@ jobs:
         POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
         echo $POD_HOST
         NODE_PORT=`kubectl describe services nginx-php-service | grep "NodePort:"  | awk '{print $3}'`
-        curl $POD_HOST:${NODE_PORT::-4}
+        echo ${NODE_PORT::-4}
+        NODE_PORT=${NODE_PORT::-4}
+        curl $POD_HOST:${NODE_PORT}
