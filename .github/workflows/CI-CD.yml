@@ -17,11 +17,11 @@ jobs:
     
     - name: Build Docker Image
       run: |
-          docker build . -t boazhalter/revealsecurity/name/app:latest
+          docker build . -t boazhalter/revealsecurity:latest
           
     - name: Push Docker Image
       run: |
-        docker push boazhalter/revealsecurity/name/app:latest
+        docker push boazhalter/revealsecurity:latest
         
     - name: Install Minikube
       run: |
