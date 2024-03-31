@@ -43,7 +43,7 @@ jobs:
           
       - name: Create Registry Secret
         run: |
-          kubectl create secret generic my-secret --from-file=.dockerconfigjson=/home/runner/.docker/config.json
+          kubectl create secret docker-registry my-secret --from-file=.dockerconfigjson=/home/runner/.docker/config.json
         
       - name: Deploy To K8S
         run: |
