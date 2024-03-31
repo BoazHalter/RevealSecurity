@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-php-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx-php
+  template:
+    metadata:
+      labels:
+        app: nginx-php
+    spec:
+      containers:
+      - name: nginx-php
+        image: <DOCKER_REGISTRY_URL>/nginx-php:${{ github.sha }}
+        ports:
+        - containerPort: 80
+      imagePullSecrets:
+      - name: docker-registry-secret
