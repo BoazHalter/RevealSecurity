@@ -40,3 +40,5 @@ jobs:
         sleep 20
         kubectl describe pod
         kubectl get pods --selector="app=nginx-php" --output=wide
+        POD_HOST=`kubectl get pod --selector="app=nginx-php" --template={{.status.podIP}}`
+        echo $POD_HOST
