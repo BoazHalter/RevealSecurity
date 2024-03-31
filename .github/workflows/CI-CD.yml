@@ -39,18 +39,13 @@ jobs:
         run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
-          
-          minikube start --insecure-registry "127.0.0.0/8"
-          minikube addons configure registry-creds &n &n &y
-          
+          minikube start --insecure-registry 127.0.0.1:5000
       - name: Create Registry Secret
         run: |
           kubectl create secret generic regcred \
           --from-file=.dockerconfigjson=/home/runner/.docker/config.json \
           --type=kubernetes.io/dockerconfigjson
-           docker pull "127.0.0.1:5000/name/app:latest"
-          #kubectl create secret docker-registry my-secret --from-file=.dockerconfigjson=/home/runner/.docker/config.json
-        
+          
       - name: Deploy To K8S
         run: |
           kubectl apply -f deployment.yaml
