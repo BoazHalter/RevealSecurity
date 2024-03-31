@@ -41,5 +41,5 @@ jobs:
         podName=`kubectl get pods --no-headers -o custom-columns=":metadata.name"`
         POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
         echo $POD_HOST
-        kubectl describe services nginx-php-service | grep "NodePort"
+        kubectl describe services nginx-php-service | grep "NodePort:"  | awk '{print $3}'
         #curl $POD_HOST:$NODE_PORT
