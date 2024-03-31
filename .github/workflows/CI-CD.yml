@@ -58,9 +58,8 @@ jobs:
         run: |
           sleep 10
           kubectl describe pod 
-          kubectl get deployments -A
           sleep 10
-          kubectl get deployments -A
+          kubectl describe pod
           sleep 10
-          kubectl get po -o yaml
+          kubectl describe pod
           curl localhost:80
