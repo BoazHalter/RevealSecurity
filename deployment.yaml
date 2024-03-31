@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nginx-php
-        image: 127.0.0.1:5000/name/app:latest
+        image: boazhalter/revealsecurity/name/app:latest
         ports:
         - containerPort: 80
 ---
