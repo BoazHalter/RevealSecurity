@@ -34,6 +34,7 @@ jobs:
       - name: Inspect
         run: |
           docker buildx imagetools inspect localhost:5000/name/app:latest
+          cat ~/.docker/config.json
       
       - name: Install Minikube
         run: |
@@ -53,5 +54,4 @@ jobs:
           kubectl get deployments -A
           sleep 10
           kubectl get po -A
-          
           curl localhost:80
