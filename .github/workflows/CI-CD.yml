@@ -46,7 +46,7 @@ jobs:
           cd ~
           pwd
           cat ~/.docker/config.json
-          kubectl create secret docker-registry my-secret --from-file=.dockerconfigjson=~/.docker/config.json
+          kubectl create secret docker-registry my-secret --from-file=.dockerconfigjson=/home/runner/.docker/config.json
 
           #kubectl create secret generic regcred \
           #--from-file=.dockerconfigjson="~/.docker/config.json" 
