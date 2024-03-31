@@ -45,7 +45,7 @@ jobs:
         run: |
           cat ~/.docker/config.json
           
-          kubectl create secret generic  docker-registry-secret \
+          kubectl create secret generic  dockersecret \
           --from-file=.dockerconfigjson="~/.docker/config.json" \ 
           --type=kubernetes.io/dockerconfigjson
           
