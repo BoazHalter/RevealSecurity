@@ -52,6 +52,7 @@ jobs:
           kubectl apply -f deployment.yaml
       
       - name: Validate Service up
+        run: |
           sleep 10
           kubectl get deployments -A
           sleep 10
