@@ -63,5 +63,5 @@ jobs:
           sleep 10
           kubectl get deployments -A
           sleep 10
-          kubectl get po -A
+          kubectl get po -o wide
           curl localhost:80
