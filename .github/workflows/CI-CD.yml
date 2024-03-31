@@ -28,13 +28,6 @@ jobs:
         curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         sudo install minikube-linux-amd64 /usr/local/bin/minikube
         minikube start 
-
-      
-   # - name: Create Registry Secret
-   #   run: |
-   #     kubectl create secret generic regcred \
-   #     --from-file=.dockerconfigjson=/home/runner/.docker/config.json \
-   #     --type=kubernetes.io/dockerconfigjson
           
     - name: Deploy To K8S
       run: |
@@ -44,6 +37,6 @@ jobs:
       
     - name: Validate Service up
       run: |
-        sleep 10
-        kubectl describe pod 
+        sleep 20
+        kubectl describe pod
         kubectl get pods --selector="app=nginx-php" --output=wide
