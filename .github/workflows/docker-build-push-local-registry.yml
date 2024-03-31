@@ -42,12 +42,17 @@ jobs:
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
           minikube start
           
+      - name: Create Registry Secret
+        run: |
+          kubectl create secret generic regcred \
+          --from-file=.dockerconfigjson=~/.docker/config.json \
+          --type=kubernetes.io/dockerconfigjson
+        
       - name: Deploy To K8S
         run: |
           kubectl apply -f deployment.yaml
       
       - name: Validate Service up
-        run: |
           sleep 10
           kubectl get deployments -A
           sleep 10
