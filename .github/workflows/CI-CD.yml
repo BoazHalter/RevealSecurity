@@ -13,8 +13,8 @@ jobs:
 
     - name: Login Docker Hub
       run: |
-        docker login
-          
+        docker login $ docker login -u "myusername" -p "mypassword" docker.io
+    
     - name: Build Docker Image
       run: |
           docker build . -t boazhalter/revealsecurity/name/app:latest
