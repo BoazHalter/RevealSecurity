@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: nginx-php
-        image: <DOCKER_REGISTRY_URL>/nginx-php:${{ github.sha }}
+        image: localhost:5000/name/app:latest
         ports:
         - containerPort: 80
       imagePullSecrets:
