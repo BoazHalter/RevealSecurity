@@ -39,7 +39,9 @@ jobs:
         run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
+          
           minikube start --insecure-registry "127.0.0.0/8"
+          minikube addons configure registry-creds
           
       - name: Create Registry Secret
         run: |
