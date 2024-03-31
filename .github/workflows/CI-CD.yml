@@ -46,8 +46,4 @@ jobs:
       run: |
         sleep 10
         kubectl describe pod 
-        sleep 10
-        kubectl describe pod
-        sleep 10
-        kubectl describe pod
-          curl localhost:80
+        kubectl get pods --selector="app=nginx-php" --output=wide
