@@ -1,6 +1,6 @@
 # Use nginx base image
-FROM nginx:latest
+FROM php:7.4-fpm
 
 
 # Copy index.php file into the container
-COPY index.php /usr/share/nginx/html/index.php
+COPY index.php /var/www/html/index.php
