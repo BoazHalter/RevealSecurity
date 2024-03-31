@@ -7,12 +7,7 @@ jobs:
   docker-registry:
     timeout-minutes: 120
     runs-on: ubuntu-latest
-    services:
-      registry:
-        image: registry:2
-        ports:
-          - 5000:5000
-    steps:
+      steps:
       - name: Checkout
         uses: actions/checkout@v4
       
@@ -29,11 +24,11 @@ jobs:
         with:
           context: .
           push: true
-          tags: 127.0.0.1:5000/name/app:latest
+          tags: boazhalter/revealsecurity/name/app:latest
       
       - name: Inspect
         run: |
-          docker buildx imagetools inspect 127.0.0.1:5000/name/app:latest
+          docker buildx imagetools inspect boazhalter/revealsecurity/name/app:latest
           
       - name: Inspect Hosts    
         run: |
@@ -43,7 +38,7 @@ jobs:
         run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
-          minikube start --insecure-registry 127.0.0.1:5000
+          minikube start 
       
       - name: Replace daemon file
         run: |  
