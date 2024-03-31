@@ -41,7 +41,7 @@ jobs:
           sudo install minikube-linux-amd64 /usr/local/bin/minikube
           
           minikube start --insecure-registry "127.0.0.0/8"
-          minikube addons configure registry-creds
+          minikube addons configure registry-creds &n &n &y
           
       - name: Create Registry Secret
         run: |
