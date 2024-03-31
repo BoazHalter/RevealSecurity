@@ -10,30 +10,27 @@ jobs:
       steps:
       - name: Checkout
         uses: actions/checkout@v4
-      
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-      
-      - name: Set up Docker Buildx
+
+      - name: Login Docker Hub
+        run: |
+          docker login
+          
+      - name: Build Docker Image
+        run: |
+          docker build . -t boazhalter/revealsecurity/name/app:latest
+          
+      - name: Push Docker Image
+        run: |
+          docker push boazhalter/revealsecurity/name/app:latest
         uses: docker/setup-buildx-action@v3
         with:
           driver-opts: network=host
       
-      - name: Build and push to local registry
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          push: true
-          tags: boazhalter/revealsecurity/name/app:latest
       
-      - name: Inspect
-        run: |
-          docker buildx imagetools inspect boazhalter/revealsecurity/name/app:latest
-          
-      - name: Inspect Hosts    
-        run: |
-          cat /etc/hosts
-          
+      #- name: Inspect
+      #  run: |
+      #    docker inspect boazhalter/revealsecurity/name/app:latest
+      
       - name: Install Minikube
         run: |
           curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
