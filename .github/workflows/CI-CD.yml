@@ -42,8 +42,8 @@ jobs:
           minikube start --insecure-registry 127.0.0.1:5000
       - name: Replace daemon file
         run: |  
-          rm -f /etc/docker/daemon.json
-          cp daemon.json /etc/docker/
+          sudo rm -f /etc/docker/daemon.json
+          sudo cp daemon.json /etc/docker/
       - name: Create Registry Secret
         run: |
           kubectl create secret generic regcred \
