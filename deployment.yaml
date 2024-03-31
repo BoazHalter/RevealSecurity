@@ -17,8 +17,6 @@ spec:
         image: 127.0.0.1:5000/name/app:latest
         ports:
         - containerPort: 80
-      imagePullSecrets:
-      - name: regcred
 ---
 apiVersion: v1
 kind: Service
