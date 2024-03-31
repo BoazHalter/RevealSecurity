@@ -43,15 +43,8 @@ jobs:
           
       - name: Create Registry Secret
         run: |
-          cd ~
-          pwd
-          cat ~/.docker/config.json
           kubectl create secret docker-registry my-secret --from-file=.dockerconfigjson=/home/runner/.docker/config.json
-
-          #kubectl create secret generic regcred \
-          #--from-file=.dockerconfigjson="~/.docker/config.json" 
-          #\ --type=kubernetes.io/dockerconfigjson
-          
+        
       - name: Deploy To K8S
         run: |
           kubectl apply -f deployment.yaml
