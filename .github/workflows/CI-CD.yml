@@ -43,6 +43,8 @@ jobs:
           
       - name: Create Registry Secret
         run: |
+          cat ~/.docker/config.json
+          
           kubectl create secret generic  docker-registry-secret \
           --from-file=.dockerconfigjson="~/.docker/config.json" \ 
           --type=kubernetes.io/dockerconfigjson
