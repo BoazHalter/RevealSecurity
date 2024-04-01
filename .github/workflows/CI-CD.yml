@@ -29,10 +29,10 @@ jobs:
       run: |
         # Define the command to execute
         timeout=35
-        command='kubectl get pods -n test --no-headers -o custom-columns=":metadata.name"'
+        command="kubectl get pods -n test --no-headers -o custom-columns=":metadata.name""
         #command='kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "nginx"'
         # Run the command until successful execution
-        until $command ; do
+        until $command &> /dev/null; do
           echo "Waiting for pods to be available..."
           sleep 5
         done
