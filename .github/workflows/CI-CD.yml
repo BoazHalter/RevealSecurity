@@ -27,23 +27,31 @@ jobs:
 
     - name: Validate Chart Deployed
       run: |
-         sleep 30
-         kubectl get pods --namespace test -o wide
-         #kubectl get all,cm,secret,ing -A
-         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "nginx"`
-         echo "podName: $podName"
-         POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
-         echo "POD_HOST: $POD_HOST"
-         NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
-         echo "NODE_PORT: $NODE_PORT"
-         NODE_PORT=${NODE_PORT::-4}
-         echo "NODE_PORT: $NODE_PORT"
-         #service/my-release-nginx-phpfpm-nginx 
-         #export POD_NAME=$(kubectl get pods --namespace test -l "app.kubernetes.io/name=nginx-phpfpm-nginx,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}")
-         #export CONTAINER_PORT=$(kubectl get pod --namespace test $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-         #echo "Visit http://127.0.0.1:8080 to use your application"
-         #kubectl --namespace test port-forward $POD_NAME 8080:$CONTAINER_PORT
-         curl --connect-timeout 10 -kvi "http://192.168.49.2:8080"
+        # Define the command to execute
+        command="kubectl get pods"
+        # Run the command until successful execution
+        until $command &> /dev/null; do
+          echo "Waiting for pods to be available..."
+          sleep 5
+        done
+        # Once pods are available, execute the command to get pods
+        $command
+        kubectl get pods --namespace test -o wide
+        #kubectl get all,cm,secret,ing -A
+        podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "nginx"`
+        echo "podName: $podName"
+        POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
+        echo "POD_HOST: $POD_HOST"
+        NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
+        echo "NODE_PORT: $NODE_PORT"
+        NODE_PORT=${NODE_PORT::-4}
+        echo "NODE_PORT: $NODE_PORT"
+        #service/my-release-nginx-phpfpm-nginx 
+        #export POD_NAME=$(kubectl get pods --namespace test -l "app.kubernetes.io/name=nginx-phpfpm-nginx,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}")
+        #export CONTAINER_PORT=$(kubectl get pod --namespace test $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+        #echo "Visit http://127.0.0.1:8080 to use your application"
+        #kubectl --namespace test port-forward $POD_NAME 8080:$CONTAINER_PORT
+        curl --connect-timeout 10 -kvi "http://192.168.49.2:8080"
 
   deploy-application:
     timeout-minutes: 10
