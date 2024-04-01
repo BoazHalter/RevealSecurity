@@ -46,7 +46,7 @@ jobs:
         # Once pods are available, execute the command to get pods
         $command
     
-        sleep 60
+        sleep 10
         
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
