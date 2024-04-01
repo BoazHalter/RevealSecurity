@@ -61,8 +61,9 @@ jobs:
         possibleHostnames=(`hostname -I`)
         for ip in ${possibleHostnames[@]};do
           curl --connect-timeout 10 -kvi "http://$ip:8080" || true
+          curl --connect-timeout 10 -kvi "http://172.17.0.1:8080" || true        
         done
-         172.17.0.1
+
         ip=`ip a`
         echo "ip=$ip"
         curl --connect-timeout 10 -kvi "https://$ip:80"
