@@ -39,7 +39,7 @@ jobs:
         echo "podName: $podName"
         kubectl logs $podName -n test
         POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
-        NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
+        NODE_PORT=`kubectl describe services -n test nginx-phpfpm-node-port | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
         kubectl cluster-info
         minikube service nginx-phpfpm-node-port -n test --url
