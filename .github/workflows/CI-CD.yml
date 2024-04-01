@@ -55,10 +55,10 @@ jobs:
         kubectl logs $podName -n test
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
-        curl --connect-timeout 10 -kvi "https://192.168.49.2:8080"
-        curl --connect-timeout 10 -kvi "http://localhost:8080"
-        curl --connect-timeout 10 -kvi "http://127.0.0.1:8080"
-        curl --connect-timeout 10 -kvi "http://192.168.49.2:8080"
+        curl --connect-timeout 10 -kvi "https://192.168.49.2:80"
+        curl --connect-timeout 10 -kvi "http://localhost:80"
+        curl --connect-timeout 10 -kvi "http://127.0.0.1:80"
+        curl --connect-timeout 10 -kvi "http://192.168.49.2:80"
 
   deploy-application:
     timeout-minutes: 10
