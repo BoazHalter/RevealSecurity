@@ -32,6 +32,10 @@ jobs:
           
     - name: Deploy To K8S
       run: |
+        helm repo add sickhub https://sickhub.github.io/charts
+        helm repo update
+        helm search repo sickhub
+        helm upgrade --create-namespace --namespace test --install --values values.yaml my-release sickhub/nginx-phpfpm
         kubectl apply -f deployment.yaml
         kubectl expose deployment nginx-php-deployment --type=NodePort --name=nginx-php-service
 
