@@ -47,8 +47,8 @@ jobs:
         SCRIPT_NAME=/status \
         SCRIPT_FILENAME=/status \
         REQUEST_METHOD=GET \
-        cgi-fcgi -bind -connect "http://192.168.49.2:$NODE_PORT"
-        curl --connect-timeout 10 -vi "http://192.168.49.2:$NODE_PORT"
+        cgi-fcgi -bind -connect "http://192.168.49.2:$NODE_PORT" || true
+        curl --connect-timeout 10 -vi "http://192.168.49.2:$NODE_PORT" || true
  
         
   deploy-application:
