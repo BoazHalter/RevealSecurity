@@ -26,22 +26,19 @@ jobs:
 
     - name: Validate Chart Deployed
       run: |
-        
-    
         sleep 30    
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
         CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
         echo "CONTAINER_PORT: $CONTAINER_PORT"
+        
         kubectl logs $podName -n test
-        kubectl expose deployment my-release-nginx-phpfpm-nginx --type=NodePort --port=8080
-        minikube service  my-release-nginx-phpfpm-nginx --url
-        docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
-        docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
-        docker exec -t minikube curl --connect-timeout 10 -kvi "http://192.168.49.2:8080" ||true
-        minikube service  my-release-nginx-phpfpm-nginx --url
-         curl --connect-timeout 10 -kvi "http://192.168.49.2:8080" ||true
-         curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
+        kubectl expose deployment my-release-nginx-phpfpm-nginx --type=NodePort --name=my-release-nginx-phpfpm-nginx
+        POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
+        NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
+        NODE_PORT=${NODE_PORT::-4}
+        curl --connect-timeout 10 -kvi "http://192.168.49.2:8080" ||true
+        
   deploy-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -69,7 +66,6 @@ jobs:
         POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
         echo $POD_HOST
         NODE_PORT=`kubectl describe services nginx-php-service | grep "NodePort:"  | awk '{print $3}'`
-        echo ${NODE_PORT::-4}
         NODE_PORT=${NODE_PORT::-4}
         echo $NODE_PORT
         kubectl cluster-info
