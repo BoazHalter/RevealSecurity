@@ -47,14 +47,15 @@ jobs:
         $command
     
         sleep 60
+        
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
-        kubectl logs $podName -n test
-        sleep 5
         CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
         echo "CONTAINER_PORT: $CONTAINER_PORT"
+        kubectl logs $podName -n test
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
+        curl --connect-timeout 10 -kvi "http://localhost:8080"
         curl --connect-timeout 10 -kvi "http://127.0.0.1:8080"
         curl --connect-timeout 10 -kvi "http://192.168.49.2:8080"
 
