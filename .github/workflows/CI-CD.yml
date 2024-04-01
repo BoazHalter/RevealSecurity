@@ -29,10 +29,11 @@ jobs:
         sleep 35    
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
-        CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
-        echo "CONTAINER_PORT: $CONTAINER_PORT"
+        #CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
+        #echo "CONTAINER_PORT: $CONTAINER_PORT"
         
         kubectl logs $podName -n test
+        kubectl get deploments -n test
         kubectl expose deployment my-release-nginx-phpfpm-nginx --type=NodePort --name=my-release-nginx-phpfpm-nginx
         POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
         NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
