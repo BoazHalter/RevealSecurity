@@ -22,7 +22,7 @@ jobs:
         helm repo add sickhub https://sickhub.github.io/charts
         helm repo update
         helm search repo sickhub
-        helm upgrade --create-namespace --namespace test --install --values https://raw.githubusercontent.com/SickHub/charts/main/sickhub/nginx-phpfpm/values.yaml  my-release sickhub/nginx-phpfpm
+        helm upgrade --create-namespace --namespace test --install --debug --values https://raw.githubusercontent.com/SickHub/charts/main/sickhub/nginx-phpfpm/values.yaml  my-release sickhub/nginx-phpfpm
 
     - name: Validate Chart Deployed
       run: |
@@ -36,24 +36,11 @@ jobs:
         kubectl logs $podName -n test
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
-        docker exec -i minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
         docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
- 
-        docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minikube
-        possibleHostnames=(`hostname -I`)
-        for ip in ${possibleHostnames[@]};do
-          curl --connect-timeout 10 -kvi "https://$ip:8080" || true     
-        done
-
-        ip=`ip a`
-        echo "ip=$ip"
-        curl --connect-timeout 10 -kvi "https://$ip:80"
-        curl --connect-timeout 10 -kvi "https://$ip:8080"
-        curl --connect-timeout 10 -kvi "https://192.168.49.2:80"
-        curl --connect-timeout 10 -kvi "http://localhost:80"
-        curl --connect-timeout 10 -kvi "http://127.0.0.1:80"
-        curl --connect-timeout 10 -kvi "http://192.168.49.2:80"
-
+        docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
+        docker exec -t minikube curl --connect-timeout 10 -kvi "http://192.168.49.2:8080" ||true
+        minikube service hello-minikube --url
+        
   deploy-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
