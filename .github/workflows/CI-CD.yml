@@ -27,17 +27,17 @@ jobs:
     - name: Validate Chart Deployed
       run: |
         sleep 40    
-        podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
-        echo "podName: $podName"
+        
         #CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
         #echo "CONTAINER_PORT: $CONTAINER_PORT"
-        
-        kubectl logs $podName -n test
         kubectl get deployments -n test
         kubectl get svc -n test      
         kubectl delete service -n test my-release-nginx-phpfpm-nginx
         kubectl expose deployment my-release-nginx-phpfpm-nginx -n test --type=NodePort --name=my-release-nginx-phpfpm-nginx
         kubectl get svc -n test      
+        podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
+        echo "podName: $podName"
+        kubectl logs $podName -n test
         POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
         NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
