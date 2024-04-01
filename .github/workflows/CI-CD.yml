@@ -43,6 +43,7 @@ jobs:
             break
           fi
         done
+        
         # Once pods are available, execute the command to get pods
         $command
     
