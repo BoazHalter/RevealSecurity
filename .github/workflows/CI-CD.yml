@@ -34,13 +34,14 @@ jobs:
         CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
         echo "CONTAINER_PORT: $CONTAINER_PORT"
         kubectl logs $podName -n test
-        kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
-        kubectl cluster-info
+        kubectl expose deployment my-release-nginx-phpfpm-nginx --type=NodePort --port=8080
+        minikube service  my-release-nginx-phpfpm-nginx --url
         docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
         docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
         docker exec -t minikube curl --connect-timeout 10 -kvi "http://192.168.49.2:8080" ||true
-        minikube service hello-minikube --url
-        
+        minikube service  my-release-nginx-phpfpm-nginx --url
+         curl --connect-timeout 10 -kvi "http://192.168.49.2:8080" ||true
+         curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
   deploy-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
