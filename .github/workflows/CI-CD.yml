@@ -30,7 +30,7 @@ jobs:
          sleep 30
          kubectl get pods --namespace test -o wide
          #kubectl get all,cm,secret,ing -A
-         kubectl get pods -n test--no-headers -o custom-columns=":metadata.name"
+         kubectl get pods -n test--no-headers #-o custom-columns=":metadata.name"
          podName=`kubectl get pods -n test--no-headers -o custom-columns=":metadata.name"`
          echo "podName: $podName"
          POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
