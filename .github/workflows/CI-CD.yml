@@ -55,6 +55,7 @@ jobs:
         kubectl logs $podName -n test
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
+        hostname -I
         ip=`ip a`
         echo "ip=$ip"
         curl --connect-timeout 10 -kvi "https://$ip:80"
