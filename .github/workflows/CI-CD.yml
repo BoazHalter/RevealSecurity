@@ -43,8 +43,6 @@ jobs:
         NODE_PORT=${NODE_PORT::-4}
         kubectl cluster-info
         minikube service my-release-nginx-phpfpm-nginx -n test --url
-        ps -ef | grep docker@127.0.0.1
-
         curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT" ||true
         curl --connect-timeout 10 -kvi "http://127.0.0.1:$NODE_PORT" ||true
         
