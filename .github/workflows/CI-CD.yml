@@ -55,7 +55,7 @@ jobs:
         sleep 5
         CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
         echo "CONTAINER_PORT: $CONTAINER_PORT"
-        
+        kubectl --namespace test port-forward $podName 8080:$CONTAINER_PORT
         POD_HOST=`kubectl get pod $podName -n test --template '{{.status.podIP}}'`
         echo "POD_HOST: $POD_HOST"
         #service/my-release-nginx-phpfpm-nginx 
