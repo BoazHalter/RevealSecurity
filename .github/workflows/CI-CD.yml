@@ -42,9 +42,9 @@ jobs:
         NODE_PORT=`kubectl describe services -n test nginx-phpfpm-node-port | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
         kubectl cluster-info
-        minikube service nginx-phpfpm-node-port -n test --url
-        curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT" ||true
-        curl --connect-timeout 10 -kvi "http://127.0.0.1:$NODE_PORT" ||true
+        #minikube service nginx-phpfpm-node-port -n test --url
+        curl --connect-timeout 10 -vi "http://192.168.49.2:$NODE_PORT"
+ 
         
   deploy-application:
     timeout-minutes: 10
