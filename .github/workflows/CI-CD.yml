@@ -4,6 +4,36 @@ on:
     branches:
       - "main"
 jobs:
+  deploy-helm-application:
+    timeout-minutes: 10
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Install Minikube
+      run: |
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+        minikube start 
+      
+          
+    - name: Deploy Helm Chart
+      run: |
+        helm repo add sickhub https://sickhub.github.io/charts
+        helm repo update
+        helm search repo sickhub
+        helm upgrade --create-namespace --namespace test --install --values https://raw.githubusercontent.com/SickHub/charts/main/sickhub/nginx-phpfpm/values.yaml  my-release sickhub/nginx-phpfpm
+
+    - name: Validate Chart Deployed
+      run: |
+         kubectl get pods --namespace test -o wide
+         #export POD_NAME=$(kubectl get pods --namespace test -l "app.kubernetes.io/name=nginx-phpfpm-nginx,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}")
+         #export CONTAINER_PORT=$(kubectl get pod --namespace test $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
+         #echo "Visit http://127.0.0.1:8080 to use your application"
+         #kubectl --namespace test port-forward $POD_NAME 8080:$CONTAINER_PORT
+         #curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
+
   deploy-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
@@ -36,40 +66,7 @@ jobs:
         echo $NODE_PORT
         kubectl cluster-info
         curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
-
-  
-  deploy-helm-application:
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Install Minikube
-      run: |
-        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        minikube start 
-      
-          
-    - name: Deploy Helm Chart
-      run: |
-        helm repo add sickhub https://sickhub.github.io/charts
-        helm repo update
-        helm search repo sickhub
-        helm upgrade --create-namespace --namespace test --install --values https://raw.githubusercontent.com/SickHub/charts/main/sickhub/nginx-phpfpm/values.yaml  my-release sickhub/nginx-phpfpm
-
-    - name: Validate Chart Deployed
-      run: |
-         kubectl get pods --namespace test -o wiide
-         #export POD_NAME=$(kubectl get pods --namespace test -l "app.kubernetes.io/name=nginx-phpfpm-nginx,app.kubernetes.io/instance=my-release" -o jsonpath="{.items[0].metadata.name}")
-         #export CONTAINER_PORT=$(kubectl get pod --namespace test $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
-         #echo "Visit http://127.0.0.1:8080 to use your application"
-         #kubectl --namespace test port-forward $POD_NAME 8080:$CONTAINER_PORT
-         #curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
-
         
-
   build-and-push-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
