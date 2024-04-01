@@ -41,7 +41,7 @@ jobs:
         POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
         NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
-        curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT" ||true
+        curl --connect-timeout 10 -kvi "https://192.168.49.2:$NODE_PORT" ||true
         
   deploy-application:
     timeout-minutes: 10
