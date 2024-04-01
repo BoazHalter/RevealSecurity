@@ -27,10 +27,13 @@ jobs:
 
     - name: Validate Chart Deployed
       run: |
-        # Define the command to execute
+        
+        # Define iteration counter
         itr=0
-        command="kubectl get pods -n test -o wide"
-        #command='kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "nginx"'
+        
+        # Define the command to execute
+        command="kubectl get pods -n test"
+        
         # Run the command until successful execution
         until $command &> /dev/null; do
           echo "Waiting for pods to be available..."
@@ -42,6 +45,7 @@ jobs:
         done
         # Once pods are available, execute the command to get pods
         $command
+    
         sleep 10
         kubectl get pods --namespace test -o wide
         #kubectl get all,cm,secret,ing -A
