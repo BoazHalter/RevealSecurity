@@ -43,6 +43,7 @@ jobs:
         NODE_PORT=${NODE_PORT::-4}
         kubectl cluster-info
         minikube service nginx-phpfpm-node-port -n test --url
+        sleep 5
         SCRIPT_NAME=/status \
         SCRIPT_FILENAME=/status \
         REQUEST_METHOD=GET \
