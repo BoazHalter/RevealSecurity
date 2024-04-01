@@ -27,27 +27,8 @@ jobs:
     - name: Validate Chart Deployed
       run: |
         
-        # Define iteration counter
-        itr=0
-        
-        # Define the command to execute
-        command="kubectl get pods -n test"
-        
-        # Run the command until successful execution
-        until $command &> /dev/null; do
-          echo "Waiting for pods to be available..."
-          sleep 5
-          ((itr++))
-          if $itr == 7 ;then
-            break
-          fi
-        done
-        
-        # Once pods are available, execute the command to get pods
-        $command
     
-        sleep 25
-        
+        sleep 25    
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
         CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
@@ -55,7 +36,7 @@ jobs:
         kubectl logs $podName -n test
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
-        docker exec -d minikube curl --connect-timeout 10 -kvi "http://192.168.49.2:8080"
+        docker exec -d minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080"
  
         docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minikube
         possibleHostnames=(`hostname -I`)
