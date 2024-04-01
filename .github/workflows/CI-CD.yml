@@ -29,8 +29,6 @@ jobs:
       run: |
          kubectl get pods --namespace test -o wide
          sleep 30
-         #kubectl describe pod --namespace test 
-         #kubectl describe pod --namespace test 
          #kubectl get all,cm,secret,ing -A
          podName=`kubectl get pods -n test--no-headers -o custom-columns=":metadata.name"`
          echo "podName: $podName"
