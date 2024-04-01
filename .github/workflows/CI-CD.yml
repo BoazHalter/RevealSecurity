@@ -51,6 +51,10 @@ jobs:
         #kubectl get all,cm,secret,ing -A
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
+        kubectl describe pod $podName -n test
+        sleep 5
+        kubectl describe pod $podName -n test
+        
         POD_HOST=`kubectl get pod $podName -n test --template '{{.status.podIP}}'`
         echo "POD_HOST: $POD_HOST"
         kubectl describe services -n test 
