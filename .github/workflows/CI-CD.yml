@@ -28,7 +28,7 @@ jobs:
     - name: Validate Chart Deployed
       run: |
         # Define the command to execute
-        command="kubectl get pods"
+        command=kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "nginx"
         # Run the command until successful execution
         until $command &> /dev/null; do
           echo "Waiting for pods to be available..."
