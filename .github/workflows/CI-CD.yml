@@ -27,8 +27,8 @@ jobs:
 
     - name: Validate Chart Deployed
       run: |
-         kubectl get pods --namespace test -o wide
          sleep 30
+         kubectl get pods --namespace test -o wide
          #kubectl get all,cm,secret,ing -A
          podName=`kubectl get pods -n test--no-headers -o custom-columns=":metadata.name"`
          echo "podName: $podName"
