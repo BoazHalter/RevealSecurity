@@ -57,7 +57,7 @@ jobs:
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
         possibleHostnames=(`hostname -I`)
-        for ip in ${possibleHostnames[@}};do
+        for ip in ${possibleHostnames[@]};do
           curl --connect-timeout 10 -kvi "http://$ip:8080"
         done
         ip=`ip a`
