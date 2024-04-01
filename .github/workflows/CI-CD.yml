@@ -29,7 +29,7 @@ jobs:
       run: |
         # Define the command to execute
         timeout=35
-        command="kubectl get pods -n test --no-headers -o custom-columns=":metadata.name""
+        command='kubectl get pods --namespace test -o wide'
         #command='kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "nginx"'
         # Run the command until successful execution
         until $command &> /dev/null; do
