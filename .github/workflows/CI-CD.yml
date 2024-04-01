@@ -64,6 +64,7 @@ jobs:
         #echo "Visit http://127.0.0.1:8080 to use your application"
         #kubectl --namespace test port-forward $POD_NAME 8080:$CONTAINER_PORT
         curl --connect-timeout 10 -kvi "http://127.0.0.1:8080"
+        kubectl cluster-info
 
   deploy-application:
     timeout-minutes: 10
