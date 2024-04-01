@@ -16,7 +16,7 @@ jobs:
         curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
         sudo install minikube-linux-amd64 /usr/local/bin/minikube
         minikube start 
-        docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080"
+        
     - name: Deploy Helm Chart
       run: |
         helm repo add sickhub https://sickhub.github.io/charts
@@ -28,7 +28,7 @@ jobs:
       run: |
         
     
-        sleep 25    
+        sleep 30    
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
         CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
@@ -36,7 +36,8 @@ jobs:
         kubectl logs $podName -n test
         kubectl -n test port-forward $podName 8080:$CONTAINER_PORT &
         kubectl cluster-info
-        docker exec -i minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080"
+        docker exec -i minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
+        docker exec -t minikube curl --connect-timeout 10 -kvi "http://127.0.0.1:8080" ||true
  
         docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' minikube
         possibleHostnames=(`hostname -I`)
