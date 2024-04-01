@@ -34,8 +34,9 @@ jobs:
         
         kubectl logs $podName -n test
         kubectl get deployments -n test
-        kubectl get svc -n test                            
-        kubectl expose deployment my-release-nginx-phpfpm-nginx --type=NodePort --name=my-release-nginx-phpfpm-nginx
+        kubectl get svc -n test      
+#        kubectl delete service
+        kubectl expose deployment my-release-nginx-phpfpm-nginx -n test --type=NodePort --name=my-release-nginx-phpfpm-nginx
         POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
         NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
