@@ -44,7 +44,7 @@ jobs:
          #export CONTAINER_PORT=$(kubectl get pod --namespace test $POD_NAME -o jsonpath="{.spec.containers[0].ports[0].containerPort}")
          #echo "Visit http://127.0.0.1:8080 to use your application"
          #kubectl --namespace test port-forward $POD_NAME 8080:$CONTAINER_PORT
-         curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
+         curl --connect-timeout 10 -kvi "http://192.168.49.2:8080"
 
   deploy-application:
     timeout-minutes: 10
