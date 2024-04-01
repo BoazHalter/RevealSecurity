@@ -35,7 +35,8 @@ jobs:
          echo "podName: $podName"
          POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
          echo "POD_HOST: $POD_HOST"
-         NODE_PORT=`kubectl describe services my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
+         NODE_PORT=`kubectl describe services -n test my-release-nginx-phpfpm-nginx | grep "NodePort:"  | awk '{print $3}'`
+         echo "NODE_PORT: $NODE_PORT"
          NODE_PORT=${NODE_PORT::-4}
          echo "NODE_PORT: $NODE_PORT"
          #service/my-release-nginx-phpfpm-nginx 
