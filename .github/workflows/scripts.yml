@@ -13,9 +13,10 @@ jobs:
     
       - name: Run Script
         run: |
+          cd /scripts
           fileOne="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml"
           fileTwo="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml"
-          bash /scripts/run.sh merge $fileOne $fileTwo
-          bash /scripts/run.sh uniq $fileOne $fileTwo
-          bash scripts/run.sh common $fileOne $fileTwo
-          bash scripts/run.sh sort $fileOne $fileTwo
+          bash run.sh merge $fileOne $fileTwo
+          bash run.sh uniq $fileOne $fileTwo
+          bash run.sh common $fileOne $fileTwo
+          bash run.sh sort $fileOne $fileTwo
