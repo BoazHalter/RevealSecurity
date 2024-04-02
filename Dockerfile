@@ -3,7 +3,7 @@ FROM nginx:latest
 
 # Install PHP and PHP-FPM
 RUN apt-get update && apt-get install -y \
-    php-fpm \
+    php7.4-fpm \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -16,4 +16,4 @@ COPY index.php /var/www/html/
 EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container starts
-CMD ["sh", "-c", "php-fpm && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php-fpm7.4 && nginx -g 'daemon off;'"]
