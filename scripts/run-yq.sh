@@ -23,7 +23,7 @@ MergeFiles()
         echo "Error: One or both of the files do not exist."
         exit 1
     fi
-    yq eval 'merge(grep("^--- ", readFiles("'$1'")))' "$2"
+    yq -n 'load("'$1'") * load("'$file2'")'
 }
 
 # Function to extract unique keys along with their values
