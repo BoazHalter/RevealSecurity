@@ -10,15 +10,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-    
+      
+      - name: Fetchfiles
+        run: |
+          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml" >> scripts/ymlOne.yml
+          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml" >> scripts/ymlTwo.yml
+          cat scripts/ymlOne.yml
+          cat scripts/ymlTwo.yml
+
       - name: Run Script
         run: |
           cd scripts
-          fileOne="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml"
-          fileTwo="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml"
-          
-          curl  $fileOne
-          bash run-yq.sh merge $fileOne $fileTwo
-          bash run-yq.sh uniq $fileOne $fileTwo
-          bash run-yq.sh common $fileOne $fileTwo
-          bash run-yq.sh sort $fileOne $fileTwo
+          bash run-yq.sh merge scripts/ymlOne.yml scripts/ymlTwo.yml
+          bash run-yq.sh uniq scripts/ymlOne.yml scripts/ymlTwo.yml
+          bash run-yq.sh common scripts/ymlOne.yml scripts/ymlTwo.yml
+          bash run-yq.sh sort scripts/ymlOne.yml scripts/ymlTwo.yml
