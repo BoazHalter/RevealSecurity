@@ -21,7 +21,10 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          ls -la
+          echo "Sorting files..."
+          yq '.jobs |= sort_by(.steps)' ymlOne.yml
+          echo "Sorting files..."
+          yq '.jobs |= sort_by(.steps)' ymlTwo.yml
           echo "Merging files..."
           yq eval-all --inplace 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yml ymlTwo.yml
 
