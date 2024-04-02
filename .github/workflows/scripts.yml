@@ -19,7 +19,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          yq eval-all 'select(fileIndex == 0 and . as "./ymlOne.yaml" | input | "./ymlOne.yaml" == .)' "./ymlOne.yaml" "./ymlTwo.yaml"
+          yq eval-all 'select(fileIndex == 0 and . as ./ymlOne.yaml | input | ./ymlOne.yaml == .)' "./ymlOne.yaml" "./ymlTwo.yaml"
           #yq -n 'load("./ymlOne.yaml") * load("./ymlTwo.yaml")'
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
