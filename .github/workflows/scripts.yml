@@ -20,7 +20,7 @@ jobs:
         run: |
           cd scripts
           #yq -n 'load("./ymlOne.yaml") * load("./ymlTwo.yaml")'
-          #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
+          bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh sort scripts/ymlOne.yml scripts/ymlTwo.yml
