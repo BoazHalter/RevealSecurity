@@ -15,7 +15,7 @@ jobs:
         run: |
           fileOne="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml"
           fileTwo="https://github.com/BoazHalter/RevealSecurity/blob/dockerfile/.github/workflows/CI-CD.yml"
-          bash run.sh merge $fileOne $fileTwo
-          bash run.sh uniq $fileOne $fileTwo
-          bash run.sh common $fileOne $fileTwo
-          bash run.sh sort $fileOne $fileTwo
+          bash scripts/run.sh merge $fileOne $fileTwo
+          bash scripts/run.sh uniq $fileOne $fileTwo
+          bash scripts/run.sh common $fileOne $fileTwo
+          bash scripts/run.sh sort $fileOne $fileTwo
