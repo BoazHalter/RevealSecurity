@@ -16,4 +16,4 @@ COPY index.php /var/www/html/
 EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container starts
-CMD ["sh", "-c", "service php7.4-fpm start && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "php-fpm && nginx -g 'daemon off;'"]
