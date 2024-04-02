@@ -1,5 +1,5 @@
 #!/bin/bash
-set +x
+
 # Display Help
 Help()
 {
@@ -17,17 +17,23 @@ Help()
 
 # Function to merge the files
 MergeFiles()
-{   
+{
     echo "Merging files..."
-    cat "$file1"
-    
-    yq -n 'load($file1) * load($file2)'
+    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
+        echo "Error: One or both of the files do not exist."
+        exit 1
+    fi
+    yq eval 'merge(grep("^--- ", readFiles("'$1'")))' "$2"
 }
 
 # Function to extract unique keys along with their values
 ExtractUnique()
 {
     echo "Extracting unique keys along with their values..."
+    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
+        echo "Error: One or both of the files do not exist."
+        exit 1
+    fi
     yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' "$1" "$2"
 }
 
@@ -35,13 +41,21 @@ ExtractUnique()
 ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
+    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
+        echo "Error: One or both of the files do not exist."
+        exit 1
+    fi
     yq eval-all 'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' "$1" "$2"
 }
 
 # Function to sort the files by key
 SortByKey()
-{   yq '.myArray |= sort_by(.numBuckets)' sample.yml
+{
     echo "Sorting the files by key..."
+    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
+        echo "Error: One or both of the files do not exist."
+        exit 1
+    fi
     yq eval-all 'sort_by(keys[]) | .' "$1" "$2"
 }
 
@@ -59,7 +73,7 @@ file2="$3"
 # Perform the specified task based on the command
 case "$command" in
     merge)
-        MergeFiles $file1 $file2
+        MergeFiles "$file1" "$file2"
         ;;
     unique)
         ExtractUnique "$file1" "$file2"
