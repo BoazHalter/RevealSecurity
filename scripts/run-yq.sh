@@ -32,6 +32,7 @@ ExtractUnique()
 # Function to extract common (key, value) pairs
 ExtractCommon()
 {
+    echo "Extracting common (key, value) pairs..."
     yq eval-all 'select(fileIndex == 0 and . as '"'$1'"' | input | '"'$1'"' == .)' '"'$1'"' '"'$2'"'
 }
 
