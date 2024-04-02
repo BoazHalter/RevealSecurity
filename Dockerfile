@@ -1,7 +1,7 @@
 # Use the official Nginx image as the base image
 FROM nginx:latest
 
-# Install PHP and PHP-FPM
+# Update package repositories
 RUN apt-get update && apt-get install -y \
     php7.4-fpm \
     && rm -rf /var/lib/apt/lists/*
