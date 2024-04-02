@@ -44,7 +44,7 @@ jobs:
         kubectl cluster-info
         minikube service nginx-phpfpm-node-port -n test --url
         sleep 5
-        
+        kubectl wait --for=condition=ready pod $podName -n test
         #kubectl exec $podName -n test -- /bin/sh sudo chown -R www-data:www-data /var/www/html/
         SCRIPT_NAME=/status \
         SCRIPT_FILENAME=/status \
