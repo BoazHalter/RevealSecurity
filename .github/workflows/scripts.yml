@@ -13,23 +13,15 @@ jobs:
       
       - name: Fetchfiles
         run: |
-          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml" >> scripts/ymlOne.yml
-          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml" >> scripts/ymlTwo.yml
-          cat scripts/ymlOne.yml
-          cat scripts/ymlTwo.yml
+          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml" >> scripts/ymlOne.yaml
+          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yaml" >> scripts/ymlTwo.yaml
+          cat scripts/ymlOne.yaml
+          cat scripts/ymlTwo.yaml
 
       - name: Run Script
         run: |
           cd scripts
-          echo "Sorting files..."
-          yq '.jobs |= sort_by(.steps)' ymlOne.yml
-          echo "Sorting files..."
-          yq '.jobs |= sort_by(.steps)' ymlTwo.yml
-          echo "Merging files..."
-          yq eval-all --inplace 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yml ymlTwo.yml
-
-          yq -n 'load(./ymlOne.yml) * load(./ymlTwo.yml)'
-          echo ====
+          yq -n 'load("ymlOne.yaml") * load("file2.yaml")'
           bash run-yq.sh merge scripts/ymlOne.yml scripts/ymlTwo.yml
           bash run-yq.sh uniq scripts/ymlOne.yml scripts/ymlTwo.yml
           bash run-yq.sh common scripts/ymlOne.yml scripts/ymlTwo.yml
