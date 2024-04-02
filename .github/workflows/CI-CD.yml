@@ -2,90 +2,9 @@ name: RevealSecurity CI / CD
 on:
   push:
     branches:
-      - "main"
-jobs:
-  deploy-helm-application:
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-
-    - name: Install Minikube
-      run: |
-        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        minikube start 
-        
-    - name: Deploy Helm Chart
-      run: |
-        helm repo add sickhub https://sickhub.github.io/charts
-        helm repo update
-        helm search repo sickhub
-        helm upgrade --create-namespace --namespace test --install --debug --values https://raw.githubusercontent.com/SickHub/charts/main/sickhub/nginx-phpfpm/values.yaml  my-release sickhub/nginx-phpfpm
-
-    - name: Validate Chart Deployed
-      run: |
-        sleep 40    
-        
-        #CONTAINER_PORT=`kubectl get pod $podName -n test  -o jsonpath="{.spec.containers[0].ports[0].containerPort}"`
-        #echo "CONTAINER_PORT: $CONTAINER_PORT"
-        kubectl get deployments -n test
-        kubectl get svc -n test      
-        kubectl delete service -n test my-release-nginx-phpfpm-nginx
-        kubectl expose deployment my-release-nginx-phpfpm-nginx -n test --type=NodePort --name=nginx-phpfpm-node-port
-        kubectl get svc -n test      
-        podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
-        echo "podName: $podName"
-        kubectl logs $podName -n test
-        POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
-        NODE_PORT=`kubectl describe services -n test nginx-phpfpm-node-port | grep "NodePort:"  | awk '{print $3}'`
-        NODE_PORT=${NODE_PORT::-4}
-        kubectl cluster-info
-        minikube service nginx-phpfpm-node-port -n test --url
-        sleep 5
-        kubectl wait --for=condition=ready pod $podName -n test
-        kubectl exec $podName -n test -- chown -R www-data:www-data /var/www/html/
-        SCRIPT_NAME=/status \
-        SCRIPT_FILENAME=/status \
-        REQUEST_METHOD=GET \
-        cgi-fcgi -bind -connect "http://192.168.49.2:$NODE_PORT" || true
-        curl --connect-timeout 10 -vki "http://192.168.49.2:$NODE_PORT/" || true
- 
-        
-  deploy-application:
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Install Minikube
-      run: |
-        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        minikube start 
-  
-    - name: Deploy To K8S
-      run: |
-        kubectl apply -f deployment.yaml
-        kubectl expose deployment nginx-php-deployment --type=NodePort --name=nginx-php-service
-    
-    - name: Validate Service up
-      run: |
-        sleep 20
-        kubectl get pods --selector="app=nginx-php" --output=wide
-
-        podName=`kubectl get pods --no-headers -o custom-columns=":metadata.name"`
-        POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
-        echo $POD_HOST
-        NODE_PORT=`kubectl describe services nginx-php-service | grep "NodePort:"  | awk '{print $3}'`
-        NODE_PORT=${NODE_PORT::-4}
-        echo $NODE_PORT
-        kubectl cluster-info
-        curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
-        
-  build-and-push-application:
+      - "dockerfile"
+jobs:        
+  build-run-and-push-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
@@ -99,7 +18,16 @@ jobs:
     - name: Build Docker Image
       run: |
           docker build . -t boazhalter/revealsecurity:latest
-          
+    
+    - name: Push Run Image
+      run: |
+        docker run -d -p 8080:80 --name nginx-php-fpm boazhalter/revealsecurity:latest
+        docker wait nginx-php-fpm 
+
+    - name: Test PHP
+      run: |        
+        curl http://localhost:8080/index.php
+
     - name: Push Docker Image
       run: |
         docker push boazhalter/revealsecurity:latest
