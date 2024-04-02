@@ -25,7 +25,8 @@ jobs:
         docker wait nginx-php-fpm 
 
     - name: Test PHP
-      run: |        
+      run: |   
+        docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-php-fpm
         ip=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-php-fpm`
         echo "ip=$ip"
         curl "http://$ip:8080/index.php"
