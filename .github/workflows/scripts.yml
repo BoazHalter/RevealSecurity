@@ -23,6 +23,8 @@ jobs:
           cd scripts
           ls -la
           echo "Merging files..."
+          yq eval-all --inplace 'select(fileIndex == 0) * select(fileIndex == 1)' ./ymlOne.yml ./ymlTwo.yml
+
           yq -n 'load(./ymlOne.yml) * load(./ymlTwo.yml)'
           echo ====
           bash run-yq.sh merge scripts/ymlOne.yml scripts/ymlTwo.yml
