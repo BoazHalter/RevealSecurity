@@ -43,7 +43,7 @@ jobs:
         SCRIPT_FILENAME=/status \
         REQUEST_METHOD=GET \
         cgi-fcgi -bind -connect "http://192.168.49.2:$NODE_PORT" || true
-        curl --connect-timeout 10 -vki "http://192.168.49.2:$NODE_PORT/healthz.php" || true
+        curl --connect-timeout 10 -vki "http://192.168.49.2:$NODE_PORT/index.php" || true
  
         
   deploy-application:
