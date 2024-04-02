@@ -28,9 +28,9 @@ jobs:
       run: |
         kubectl delete service -n test my-release-nginx-phpfpm-nginx
         kubectl expose deployment my-release-nginx-phpfpm-nginx -n test --type=NodePort --name=nginx-phpfpm-node-port
-        kubectl wait --for=condition=ready pod $podName -n test
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
+        kubectl wait --for=condition=ready pod $podName -n test
         kubectl logs $podName -n test
         POD_HOST=`kubectl get pod -n test $podName --template '{{.status.podIP}}'`
         NODE_PORT=`kubectl describe services -n test nginx-phpfpm-node-port | grep "NodePort:"  | awk '{print $3}'`
