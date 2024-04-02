@@ -32,12 +32,7 @@ ExtractUnique()
 # Function to extract common (key, value) pairs
 ExtractCommon()
 {
-    echo "Extracting common (key, value) pairs..."
-    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
-        echo "Error: One or both of the files do not exist."
-        exit 1
-    fi
-    yq eval-all 'select(fileIndex == 0 and . as '"$file1"' | input | '"$file1"' == .)' "$1" "$2"
+    yq eval-all 'select(fileIndex == 0 and . as "'$file1'" | input | "'$file1'" == .)' "$1" "$2"
 }
 
 # Function to sort the files by key
