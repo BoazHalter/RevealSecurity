@@ -19,6 +19,8 @@ Help()
 MergeFiles()
 {   
     echo "Merging files..."
+    cat ./"$1"
+    echo "Merging files..."
     yq -n 'load("./$1") * load("./$2")'
     #yq -n 'load($1) * load($2)'
 }
