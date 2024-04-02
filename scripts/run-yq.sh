@@ -26,7 +26,7 @@ MergeFiles()
 ExtractUnique()
 {
     echo "Extracting unique keys along with their values..."
-    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' "'$1'" "'$2'"
+    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' "$1" "$2"
 }
 
 # Function to extract common (key, value) pairs
