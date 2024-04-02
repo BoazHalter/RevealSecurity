@@ -15,16 +15,12 @@ jobs:
         run: |
           curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml" >> scripts/ymlOne.yaml
           curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml" >> scripts/ymlTwo.yaml
-          ls
-          cat scripts/ymlOne.yaml
-          echo "================="
-          cat scripts/ymlTwo.yaml
 
       - name: Run Script
         run: |
           cd scripts
-          yq -n 'load("./ymlOne.yaml") * load("./ymlTwo.yaml")'
-          #bash run-yq.sh merge scripts/ymlOne.yml scripts/ymlTwo.yml
+          #yq -n 'load("./ymlOne.yaml") * load("./ymlTwo.yaml")'
+          bash run-yq.sh merge scripts/ymlOne.yml scripts/ymlTwo.yml
           #bash run-yq.sh uniq scripts/ymlOne.yml scripts/ymlTwo.yml
           #bash run-yq.sh common scripts/ymlOne.yml scripts/ymlTwo.yml
           #bash run-yq.sh sort scripts/ymlOne.yml scripts/ymlTwo.yml
