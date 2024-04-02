@@ -22,7 +22,7 @@ jobs:
         #helm repo add sickhub https://sickhub.github.io/charts
         #helm repo update
         #helm search repo sickhub
-        helm upgrade --create-namespace --namespace test --install --debug --values values.yaml  my-release ./nginx-phpfpm
+        helm upgrade --create-namespace --namespace test --install --debug --values ./nginx-phpfpm/values.yaml  my-release ./nginx-phpfpm
 
     - name: Validate Chart Deployed
       run: |
