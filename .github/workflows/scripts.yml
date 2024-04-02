@@ -21,6 +21,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
+          ls -la
           echo "Merging files..."
           yq -n 'load(./ymlOne.yml) * load(./ymlTwo.yml)'
           echo ====
