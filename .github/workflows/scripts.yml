@@ -14,7 +14,7 @@ jobs:
       - name: Run Script
         run: |
           fileOne="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml"
-          fileTwo="https://github.com/BoazHalter/RevealSecurity/blob/dockerfile/.github/workflows/CI-CD.yml"
+          fileTwo="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml"
           bash scripts/run.sh merge $fileOne $fileTwo
           bash scripts/run.sh uniq $fileOne $fileTwo
           bash scripts/run.sh common $fileOne $fileTwo
