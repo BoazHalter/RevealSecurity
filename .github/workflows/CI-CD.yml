@@ -26,6 +26,7 @@ jobs:
 
     - name: Test PHP
       run: |   
+        docker logs nginx-php-fpm
         docker ps 
         docker inspect \
         --format '{{ .NetworkSettings.IPAddress }}' nginx-php-fpm
