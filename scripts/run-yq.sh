@@ -18,8 +18,8 @@ Help()
 # Function to merge the files
 MergeFiles()
 {   
-    yq -n 'load("$file1") * load("$file2")'
     echo "Merging files..."
+    yq -n 'load($1) * load($2)'
     #yq eval 'merge(grep("^--- ", readFiles("'$1'")))' ""
 }
 
