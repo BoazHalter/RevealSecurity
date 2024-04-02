@@ -8,34 +8,38 @@ Help()
     echo
     echo "Syntax: ./run.sh <option> <file1> <file2>"
     echo "options:"
-    echo " merge Merge the files"
-    echo " unique Extract the Unique keys along with their values"
-    echo " common Extract the Common (key, value) pairs"
-    echo " sort Sort the files by key"
+    echo " merge - Merge the files"
+    echo " unique - Extract the Unique keys along with their values"
+    echo " common - Extract the Common (key, value) pairs"
+    echo " sort - Sort the files by key"
     echo
 }
 
 # Function to merge the files
 MergeFiles()
 {
+    echo "Merging files..."
     yq merge "$1" "$2"
 }
 
 # Function to extract unique keys along with their values
 ExtractUnique()
 {
+    echo "Extracting unique keys along with their values..."
     yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' "$1" "$2"
 }
 
 # Function to extract common (key, value) pairs
 ExtractCommon()
 {
+    echo "Extracting common (key, value) pairs..."
     yq eval-all 'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' "$1" "$2"
 }
 
 # Function to sort the files by key
 SortByKey()
 {
+    echo "Sorting the files by key..."
     yq eval-all 'sort_by(keys[]) | .' "$1" "$2"
 }
 
@@ -70,4 +74,3 @@ case "$command" in
         exit 1
         ;;
 esac
-
