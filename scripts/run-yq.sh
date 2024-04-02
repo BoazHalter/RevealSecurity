@@ -19,7 +19,7 @@ Help()
 MergeFiles()
 {
     echo "Merging files..."
-    yq -n 'load("'$1'") * load("'$file2'")'
+    yq -n 'load("'$1'") * load("'$2'")'
 }
 
 # Function to extract unique keys along with their values
@@ -37,7 +37,7 @@ ExtractCommon()
         echo "Error: One or both of the files do not exist."
         exit 1
     fi
-    yq eval-all 'select(fileIndex == 0 and . as "'$file1'" | input | "'$file1'" == .)' "$1" "$2"
+    yq eval-all 'select(fileIndex == 0 and . as "'"$file1"'" | input | "'"$file1"'" == .)' "$1" "$2"
 }
 
 # Function to sort the files by key
