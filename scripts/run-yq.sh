@@ -19,8 +19,8 @@ Help()
 MergeFiles()
 {   
     echo "Merging files..."
-    yq -n 'load($1) * load($2)'
-    #yq eval 'merge(grep("^--- ", readFiles("'$1'")))' ""
+    yq -n 'load("./$1") * load("./$2")'
+    #yq -n 'load($1) * load($2)'
 }
 
 # Function to extract unique keys along with their values
