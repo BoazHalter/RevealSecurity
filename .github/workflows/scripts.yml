@@ -16,7 +16,8 @@ jobs:
           cd scripts
           fileOne="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml"
           fileTwo="https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml"
-          cat  $fileOne
+          
+          curl  $fileOne
           bash run-yq.sh merge $fileOne $fileTwo
           bash run-yq.sh uniq $fileOne $fileTwo
           bash run-yq.sh common $fileOne $fileTwo
