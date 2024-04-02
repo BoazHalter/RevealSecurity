@@ -19,6 +19,7 @@ Help()
 MergeFiles()
 {   
     echo "Merging files..."
+    cat "$file1"
     yq -n 'load('"$file1"') * load('"$file2"')'
 }
 
