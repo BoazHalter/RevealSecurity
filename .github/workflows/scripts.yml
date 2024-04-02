@@ -1,0 +1,21 @@
+name: ci
+
+on:
+  push:
+    branches:
+      - "scripts"
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+    
+      - name: Run Script
+        run: |
+          fileOne=https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml
+          fileTwo=https://github.com/BoazHalter/RevealSecurity/blob/dockerfile/.github/workflows/CI-CD.yml
+          run.sh merge $fileOne $fileTwo
+          run.sh uniq $fileOne $fileTwo
+          run.sh common $fileOne $fileTwo
+          run.sh sort $fileOne $fileTwo
