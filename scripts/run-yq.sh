@@ -19,10 +19,6 @@ Help()
 MergeFiles()
 {
     echo "Merging files..."
-    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
-        echo "Error: One or both of the files do not exist."
-        exit 1
-    fi
     yq -n 'load("'$1'") * load("'$file2'")'
 }
 
@@ -30,11 +26,7 @@ MergeFiles()
 ExtractUnique()
 {
     echo "Extracting unique keys along with their values..."
-    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
-        echo "Error: One or both of the files do not exist."
-        exit 1
-    fi
-    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' "$1" "$2"
+    yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' "'$1'" "'$2'"
 }
 
 # Function to extract common (key, value) pairs
