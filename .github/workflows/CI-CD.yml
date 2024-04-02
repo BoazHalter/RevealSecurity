@@ -45,7 +45,7 @@ jobs:
         minikube service nginx-phpfpm-node-port -n test --url
         sleep 5
         
-        kubectl exec $podName -n test -- /bin/sh sudo chown -R www-data:www-data /var/www/html/
+        #kubectl exec $podName -n test -- /bin/sh sudo chown -R www-data:www-data /var/www/html/
         SCRIPT_NAME=/status \
         SCRIPT_FILENAME=/status \
         REQUEST_METHOD=GET \
