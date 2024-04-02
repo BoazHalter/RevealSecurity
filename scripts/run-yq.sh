@@ -33,8 +33,9 @@ ExtractUnique()
 ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
-    fpath=`readlink -e "$1"`  
-    yq eval-all 'select(fileIndex == 0 and . as '"$file1"' | input | '"$file1"' == .)' "$fpath" "'"$2"'"
+    f1path=`readlink -e "$1"`
+    f2path=`readlink -e "$2"`
+    yq eval-all 'select(fileIndex == 0 and . as '"$file1"' | input | '"$file1"' == .)' "$fpath" "$f2path"
 }
 
 # Function to sort the files by key
