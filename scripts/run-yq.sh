@@ -21,7 +21,7 @@ MergeFiles()
     echo "Merging files..."
     cat "$file1"
     
-    yq -n 'load("$file1") * load("$file2")'
+    yq -n 'load($file1) * load($file2)'
 }
 
 # Function to extract unique keys along with their values
