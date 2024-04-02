@@ -1,0 +1,24 @@
+apiVersion: v2
+name: nginx-phpfpm
+description: A chart for an nginx pod with multiple phpfpm pods
+type: application
+version: 0.1.1
+appVersion: "8-fpm-alpine"
+home: https://github.com/SickHub
+icon: https://raw.githubusercontent.com/SickHub/charts/master/sickhub/nginx-phpfpm/icon.png
+keywords:
+  - php
+  - php-fpm
+  - nginx
+sources:
+  - https://github.com/SickHub/charts
+maintainers:
+  - name: SickHub
+    email: drpsychick@drsick.net
+    url: https://github.com/SickHub
+annotations:
+  artifacthub.io/links: |
+    - name: Ngix image
+      url: https://hub.docker.com/_/nginx
+    - name: PHP FPM image
+      url: https://hub.docker.com/_/php/tags?page=1&name=fpm
