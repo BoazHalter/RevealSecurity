@@ -28,6 +28,7 @@ jobs:
       run: |
         kubectl delete service -n test my-release-nginx-phpfpm-nginx
         kubectl expose deployment my-release-nginx-phpfpm-nginx -n test --type=NodePort --name=nginx-phpfpm-node-port
+        sleep 40
         podName=`kubectl get pods -n test --no-headers -o custom-columns=":metadata.name" | grep "phpfpm-nginx"`
         echo "podName: $podName"
         kubectl wait --for=condition=ready pod $podName -n test
@@ -38,7 +39,6 @@ jobs:
         kubectl cluster-info
         minikube service nginx-phpfpm-node-port -n test --url
         sleep 5
-        
         SCRIPT_NAME=/status \
         SCRIPT_FILENAME=/status \
         REQUEST_METHOD=GET \
