@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set +x
 # Display Help
 Help()
 {
@@ -20,7 +20,8 @@ MergeFiles()
 {   
     echo "Merging files..."
     cat "$file1"
-    yq -n 'load('"$file1"') * load('"$file2"')'
+    
+    yq -n 'load("$file1") * load("$file2")'
 }
 
 # Function to extract unique keys along with their values
@@ -58,7 +59,7 @@ file2="$3"
 # Perform the specified task based on the command
 case "$command" in
     merge)
-        MergeFiles "$file1" "$file2"
+        MergeFiles $file1 $file2
         ;;
     unique)
         ExtractUnique "$file1" "$file2"
