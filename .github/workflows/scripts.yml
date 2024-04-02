@@ -15,7 +15,9 @@ jobs:
         run: |
           curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml" >> scripts/ymlOne.yaml
           curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml" >> scripts/ymlTwo.yaml
+          ls
           cat scripts/ymlOne.yaml
+          echo "================="
           cat scripts/ymlTwo.yaml
 
       - name: Run Script
