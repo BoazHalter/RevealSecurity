@@ -1,9 +1,10 @@
 # Use the official Nginx image as the base image
 FROM nginx:latest
 
-# Update package repositories
-RUN apt-get update && apt-get install -y \
-    php7.4-fpm \
+# Update package repositories and install PHP-FPM
+RUN apt-get update \
+    && apt-get install -y \
+    php-fpm \
     && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -16,4 +17,4 @@ COPY index.php /var/www/html/
 EXPOSE 80
 
 # Start PHP-FPM and Nginx when the container starts
-CMD ["sh", "-c", "php-fpm7.4 && nginx -g 'daemon off;'"]
+CMD ["sh", "-c", "service php7.4-fpm start && nginx -g 'daemon off;'"]
