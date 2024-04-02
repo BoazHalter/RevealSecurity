@@ -1,5 +1,5 @@
 #!/bin/bash
-
+set +x
 # Display Help
 Help()
 {
