@@ -18,7 +18,7 @@ Help()
 # Function to merge the files
 MergeFiles()
 {   
-    yq -n 'load("$1") * load("$2")'
+    yq -n 'load("$file1") * load("$file2")'
     echo "Merging files..."
     #yq eval 'merge(grep("^--- ", readFiles("'$1'")))' ""
 }
@@ -39,7 +39,7 @@ ExtractCommon()
 
 # Function to sort the files by key
 SortByKey()
-{
+{   yq '.myArray |= sort_by(.numBuckets)' sample.yml
     echo "Sorting the files by key..."
     yq eval-all 'sort_by(keys[]) | .' "$1" "$2"
 }
