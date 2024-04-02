@@ -26,7 +26,12 @@ jobs:
 
     - name: Test PHP
       run: |   
+        docker ps 
+        docker inspect \
+        --format '{{ .NetworkSettings.IPAddress }}' nginx-php-fpm
+        
         docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-php-fpm
+        
         ip=`docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' nginx-php-fpm`
         echo "ip=$ip"
         curl "http://$ip:8080/index.php"
