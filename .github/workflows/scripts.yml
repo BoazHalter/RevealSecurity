@@ -14,7 +14,7 @@ jobs:
       - name: Fetchfiles
         run: |
           curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/main/.github/workflows/CI-CD.yml" >> scripts/ymlOne.yaml
-          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yaml" >> scripts/ymlTwo.yaml
+          curl "https://raw.githubusercontent.com/BoazHalter/RevealSecurity/dockerfile/.github/workflows/CI-CD.yml" >> scripts/ymlTwo.yaml
           cat scripts/ymlOne.yaml
           cat scripts/ymlTwo.yaml
 
