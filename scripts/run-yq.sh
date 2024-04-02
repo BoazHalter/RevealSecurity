@@ -19,7 +19,7 @@ Help()
 MergeFiles()
 {
     echo "Merging files..."
-    yq merge "$1" "$2"
+    yq eval 'merge(grep("^--- ", readFiles("'$1'")))' "$2"
 }
 
 # Function to extract unique keys along with their values
