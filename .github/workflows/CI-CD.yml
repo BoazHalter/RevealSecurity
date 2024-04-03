@@ -19,9 +19,7 @@ jobs:
         
     - name: Deploy Helm Chart
       run: |
-        #helm repo add sickhub https://sickhub.github.io/charts
-        #helm repo update
-        #helm search repo sickhub
+  
         helm upgrade --create-namespace --namespace test --install --debug --values ./nginx-phpfpm/values.yaml  my-release ./nginx-phpfpm
 
     - name: Validate Chart Deployed
@@ -37,47 +35,10 @@ jobs:
         NODE_PORT=`kubectl describe services -n test nginx-phpfpm-node-port | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
         kubectl cluster-info
-        minikube service nginx-phpfpm-node-port -n test --url
+        EXT_IP=`minikube service nginx-phpfpm-node-port -n test --url`
         sleep 5
-        SCRIPT_NAME=/status \
-        SCRIPT_FILENAME=/status \
-        REQUEST_METHOD=GET \
-        cgi-fcgi -bind -connect "http://192.168.49.2:$NODE_PORT" || true
-        curl --connect-timeout 10 -vki "http://192.168.49.2:$NODE_PORT/index.php" 
- 
-        
-  deploy-application:
-    timeout-minutes: 10
-    runs-on: ubuntu-latest
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Install Minikube
-      run: |
-        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-        sudo install minikube-linux-amd64 /usr/local/bin/minikube
-        minikube start 
+        curl --connect-timeout 10 -vki "$EXT_IP:$NODE_PORT/index.php" 
   
-    - name: Deploy To K8S
-      run: |
-        kubectl apply -f deployment.yaml
-        kubectl expose deployment nginx-php-deployment --type=NodePort --name=nginx-php-service
-    
-    - name: Validate Service up
-      run: |
-        sleep 20
-        kubectl get pods --selector="app=nginx-php" --output=wide
-
-        podName=`kubectl get pods --no-headers -o custom-columns=":metadata.name"`
-        POD_HOST=`kubectl get pod $podName --template '{{.status.podIP}}'`
-        echo $POD_HOST
-        NODE_PORT=`kubectl describe services nginx-php-service | grep "NodePort:"  | awk '{print $3}'`
-        NODE_PORT=${NODE_PORT::-4}
-        echo $NODE_PORT
-        kubectl cluster-info
-        curl --connect-timeout 10 -kvi "http://192.168.49.2:$NODE_PORT"
-        
   build-and-push-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
