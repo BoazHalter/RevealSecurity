@@ -33,10 +33,9 @@ ExtractUnique()
 ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
-    SortByKey()
-    diff
-    #bin/bash/diff "./ymlOne.yaml" "./ymlTwo.yaml" > "./diffOut.txt"
-    #cat  diffOut.txt
+    SortByKey
+    diff "./ymlOne.yaml" "./ymlTwo.yaml" > "./diffOut.txt"
+    cat  diffOut.txt
     #while read -r line; do 
     #grep -v "^|" oldfile >> newfile; 
     #done < diffOut.txt
