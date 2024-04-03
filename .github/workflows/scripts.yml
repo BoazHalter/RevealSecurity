@@ -19,13 +19,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          yq eval-all 'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' ymlOne.yaml ymlTwo.yaml > common_keys_and_values.yaml
-
-
-          
-
-          #yq eval-all '. as $item | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | . as $line | input | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | select(. == $line) | .[0]' ymlOne.yaml ymlTwo.yaml | sort | uniq -d
-
+          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml > common_keys_and_values.yaml
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
