@@ -39,8 +39,8 @@ ExtractCommon()
     sort merged.yaml | uniq -c > mergeCounted.yaml
     cat  mergeCounted.yaml
     while read -r line; do 
-        if [[ ${line:0:1} >= "2" ]];then
-            echo ${line:0:1} >> common.yaml
+        if [[ "${line:0:1}" >= "2" ]];then
+            echo "${line}" >> common.yaml
         fi 
     done < mergeCounted.yaml
     cat common.yaml
