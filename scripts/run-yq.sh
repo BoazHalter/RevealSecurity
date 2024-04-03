@@ -34,7 +34,7 @@ ExtractUnique()
 ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
-    SortByKey
+    SortByKey "$1" "$2"
     MergeFiles "$1" "$2"
     sort merged.yaml | uniq -c > mergeCounted.yaml
     cat  mergeCounted.yaml
