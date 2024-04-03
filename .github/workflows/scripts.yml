@@ -19,8 +19,11 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          
-          yq eval-all '. as $item | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | . as $line | input | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | select(. == $line) | .[0]' ymlOne.yaml ymlTwo.yaml | sort | uniq -d
+          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlOne.yaml | sort > sorted_file1.txt
+          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlTwo.yaml | sort > sorted_file2.txt
+          diff sorted_file1.txt sorted_file2.txt
+
+          #yq eval-all '. as $item | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | . as $line | input | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | select(. == $line) | .[0]' ymlOne.yaml ymlTwo.yaml | sort | uniq -d
 
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
