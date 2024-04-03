@@ -25,8 +25,8 @@ jobs:
           echo ==========================
           echo ==========================
           #cat ./ymlOne.yaml
-          sort ./ymlOne.yaml | uniq -c
-          
+          #sort ./ymlOne.yaml | uniq -c
+          awk '!a[$0]++' ./ymlTwo.yaml
           #yq -i -P 'sort_keys(..)' ./ymlTwo.yaml
           #comm ./ymlOne.yaml  ./ymlTwo.yaml
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
