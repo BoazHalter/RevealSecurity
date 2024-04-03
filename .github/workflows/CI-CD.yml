@@ -1,4 +1,4 @@
-name: RevealSecurity CI / CD
+name: RevealSecurity CI / CD - Branch Develop
 
 on:
   pull_request:
