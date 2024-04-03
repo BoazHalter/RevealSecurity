@@ -34,7 +34,7 @@ ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
     SortByKey()
-    diff ./ymlTwo.yaml ./ymlOne.yaml > diffOut.txt
+    diff './ymlTwo.yaml' './ymlOne.yaml' > diffOut.txt
     cat  diffOut.txt
     #while read -r line; do 
     #grep -v "^|" oldfile >> newfile; 
