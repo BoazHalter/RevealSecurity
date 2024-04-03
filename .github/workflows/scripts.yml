@@ -19,6 +19,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
+          diff <(yq -P 'sort_keys(..)' -o=props ymlOne.yaml) <(yq -P 'sort_keys(..)' -o=props ymlTwo.yaml)
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
