@@ -19,17 +19,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          #yq eval-all 'sort_keys(..) | .' ./ymlOne.yaml ./ymlTwo.yaml
-          #cat ./ymlOne.yaml
-          #yq -i -P 'sort_keys(..)' ./ymlOne.yaml
-          echo ==========================
-          echo ==========================
-          #cat ./ymlOne.yaml
-          #sort ./ymlOne.yaml | uniq -c
-          awk '!a[$0]++' ./ymlTwo.yaml
-          #yq -i -P 'sort_keys(..)' ./ymlTwo.yaml
-          #comm ./ymlOne.yaml  ./ymlTwo.yaml
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
-          #bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
+          bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh sort ./ymlOne.yaml ./ymlTwo.yaml
