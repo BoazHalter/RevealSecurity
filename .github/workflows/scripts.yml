@@ -19,7 +19,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
-          #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
+          bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
+          bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
-          #bash run-yq.sh sort ./ymlOne.yaml ./ymlTwo.yaml
+          bash run-yq.sh sort ./ymlOne.yaml ./ymlTwo.yaml
