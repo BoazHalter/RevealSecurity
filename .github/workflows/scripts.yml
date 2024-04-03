@@ -19,7 +19,7 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          diff <(yq eval-all 'select(fileIndex == 0)' ymlOne.yaml) <(yq eval-all 'select(fileIndex == 1)' ymlTwo.yaml) | yq eval
+          diff <(yq eval-all 'select(fileIndex == 0)' ymlOne.yaml) <(yq eval-all 'select(fileIndex == 0)' ymlTwo.yaml)
 
           #yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml
 
