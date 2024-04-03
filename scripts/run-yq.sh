@@ -33,21 +33,23 @@ ExtractUnique()
 ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
-    f1path="$1"
-    f2path="$2"
-    diff <(yq -P 'sort_keys(..)' -o=props "$f1path") <(yq -P 'sort_keys(..)' -o=props $f2path)
-    #yq eval-all 'select(fileIndex == 0 and . as '$f1path' | input | '$f1path' == .)' "$f1path" "$f2path"
+    SortByKey()
+    diff ./ymlTwo.yaml./ymlOne.yaml > diffOut.txt
+    cat  diffOut.txt
+    #while read -r line; do 
+    #grep -v "^|" oldfile >> newfile; 
+    #done < diffOut.txt
+
 }
 
 # Function to sort the files by key
 SortByKey()
 {
     echo "Sorting the files by key..."
-    if [ ! -f "$1" ] || [ ! -f "$2" ]; then
-        echo "Error: One or both of the files do not exist."
-        exit 1
-    fi
-    yq eval-all 'sort_by(keys[]) | .' "$1" "$2"
+    yq -i -P 'sort_keys(..)' ./ymlOne.yaml 
+    yq -i -P 'sort_keys(..)' ./ymlTwo.yaml
+    cat ./ymlOne.yaml 
+    cat ./ymlTwo.yaml 
 }
 
 # Check if number of arguments provided is less than 3
