@@ -19,10 +19,8 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
+          yq eval-all 'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' ymlOne.yaml ymlTwo.yaml > common_keys_and_values.yaml
 
-          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlOne.yaml | sort > sorted_ymlOne.txt
-          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlTwo.yaml | sort > sorted_ymlTwo.txt
-          diff sorted_ymlOne.txt sorted_ymlTwo.txt
 
           
 
