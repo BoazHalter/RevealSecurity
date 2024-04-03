@@ -19,7 +19,9 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml
+          diff <(yq eval-all 'select(fileIndex == 0)' ymlOne.yaml) <(yq eval-all 'select(fileIndex == 1)' ymlTwo.yaml) | yq eval
+
+          #yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml
 
 
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
