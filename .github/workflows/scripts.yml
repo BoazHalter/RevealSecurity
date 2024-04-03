@@ -20,11 +20,12 @@ jobs:
         run: |
           cd scripts
           #yq eval-all 'sort_keys(..) | .' ./ymlOne.yaml ./ymlTwo.yaml
-          cat ./ymlOne.yaml
-          yq -i -P 'sort_keys(..)' ./ymlOne.yaml
+          #cat ./ymlOne.yaml
+          #yq -i -P 'sort_keys(..)' ./ymlOne.yaml
           echo ==========================
           echo ==========================
-          cat ./ymlOne.yaml
+          #cat ./ymlOne.yaml
+          sort ./ymlOne.yaml | uniq -c
           
           #yq -i -P 'sort_keys(..)' ./ymlTwo.yaml
           #comm ./ymlOne.yaml  ./ymlTwo.yaml
