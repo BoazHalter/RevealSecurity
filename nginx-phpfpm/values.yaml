@@ -131,7 +131,7 @@ configMaps:
       index.php: |
         <html>
           <head>
-            <title>Hello World</title>
+            <title>RevealSecurity</title>
           </head>
             <body>
               <?php echo $word;?>
