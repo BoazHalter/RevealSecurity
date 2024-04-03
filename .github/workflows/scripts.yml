@@ -19,12 +19,9 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          diff -u <(yq eval-all '. as $item | select(type == "object") | keys_unsorted[] as $key | "\($key): \($item[$key])"' ymlOne.yaml | sort) <(yq eval-all '. as $item | select(type == "object") | keys_unsorted[] as $key | "\($key): \($item[$key])"' ymlTwo.yaml | sort) | grep '^ '
+          
+          comm -12 <(yq eval 'paths(scalars) as $p | [ $p, getpath($p) ] | join(": ")' ymlOne.yaml | sort) <(yq eval 'paths(scalars) as $p | [ $p, getpath($p) ] | join(": ")' ymlTwo.yaml | sort)
 
-        #  yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml
-
-
-          #yq eval-all 'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' ymlOne.yaml ymlTwo.yaml | yq eval-all 'select(fileIndex == 0)' - | yq eval 'del(.. | .foo?)' - | jq -s add
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
