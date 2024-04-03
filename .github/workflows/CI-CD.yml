@@ -1,4 +1,5 @@
-name: RevealSecurity CI / CD
+name: RevealSecurity CI / CD - Branch Main
+
 on:
   workflow_dispatch:
   
