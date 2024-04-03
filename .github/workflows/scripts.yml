@@ -20,8 +20,9 @@ jobs:
         run: |
           cd scripts
           #diff <(yq -P 'sort_keys(..)' -o=props ymlOne.yaml) <(yq -P 'sort_keys(..)' -o=props ymlTwo.yaml)
-          
-          yq eval-all  'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' ./ymlOne.yaml ./ymlTwo.yaml --verbose  | jq -s add
+          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ./ymlOne.yaml ./ymlTwo.yaml --verbose | jq -s add
+
+          #yq eval-all  'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' ./ymlOne.yaml ./ymlTwo.yaml --verbose  | jq -s add
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
