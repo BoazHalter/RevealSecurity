@@ -19,7 +19,8 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml > common_keys_and_values.yaml
+          comm ymlOne.yaml ymlTwo.yaml > common_keys_and_values.yaml
+          #yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml > common_keys_and_values.yaml
           cat common_keys_and_values.yaml
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
