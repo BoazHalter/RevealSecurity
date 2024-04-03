@@ -19,7 +19,8 @@ Help()
 MergeFiles()
 {
     echo "Merging files..."
-    yq -n 'load("'$1'") * load("'$2'")'
+    yq -n 'load("'$1'") * load("'$2'")' > merged.yaml
+    cat  merged.yaml
 }
 
 # Function to extract unique keys along with their values
@@ -34,8 +35,9 @@ ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
     SortByKey
-    diff -w "./ymlOne.yaml" "./ymlTwo.yaml" > "./diffOut.txt"
-    cat  diffOut.txt
+    MergeFiles
+    sort merged.yaml | uniq -c > mergeCounted.yaml
+    cat  mergeCounted.yaml
     #while read -r line; do 
     #grep -v "^|" oldfile >> newfile; 
     #done < diffOut.txt
