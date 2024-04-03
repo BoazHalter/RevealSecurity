@@ -1,8 +1,10 @@
-name: RevealSecurity CI / CD - Branch Main
+name: RevealSecurity CI / CD - Branch Develop
 
 on:
-  workflow_dispatch:
-  
+  pull_request:
+    branches:
+      - develop
+
 jobs:
   deploy-helm-application:
     timeout-minutes: 10
@@ -19,7 +21,6 @@ jobs:
         
     - name: Deploy Helm Chart
       run: |
-  
         helm upgrade --create-namespace --namespace test --install --debug --values ./nginx-phpfpm/values.yaml  my-release ./nginx-phpfpm
 
     - name: Validate Chart Deployed
@@ -38,8 +39,8 @@ jobs:
         EXT_IP=`minikube service nginx-phpfpm-node-port -n test --url`
         sleep 5
         curl --connect-timeout 10 -vki "$EXT_IP:$NODE_PORT/index.php" 
-  
-  build-and-push-application:
+
+build-and-push-application:
     timeout-minutes: 10
     runs-on: ubuntu-latest
     steps:
@@ -57,4 +58,3 @@ jobs:
     - name: Push Docker Image
       run: |
         docker push boazhalter/revealsecurity:latest
-        
