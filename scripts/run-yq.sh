@@ -35,7 +35,7 @@ ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
     SortByKey
-    MergeFiles "./ymlOne.yaml" "./ymlTwo.yaml"
+    MergeFiles "$1" "$2"
     sort merged.yaml | uniq -c > mergeCounted.yaml
     cat  mergeCounted.yaml
     while read -r line; do 
@@ -50,10 +50,10 @@ ExtractCommon()
 SortByKey()
 {
     echo "Sorting the files by key..."
-    yq -i -P 'sort_keys(..)' ./ymlOne.yaml 
-    yq -i -P 'sort_keys(..)' ./ymlTwo.yaml
-    cat ./ymlOne.yaml 
-    cat ./ymlTwo.yaml 
+    yq -i -P 'sort_keys(..)' "$1" 
+    yq -i -P 'sort_keys(..)' "$2"
+    cat "$1" 
+    cat "$2" 
 }
 
 # Check if number of arguments provided is less than 3
