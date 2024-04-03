@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-php-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nginx-php
+  template:
+    metadata:
+      labels:
+        app: nginx-php
+    spec:
+      containers:
+      - name: nginx-php
+        image: boazhalter/revealsecurity:latest
+        ports:
+        - containerPort: 80

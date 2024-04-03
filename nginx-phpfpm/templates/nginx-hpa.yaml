@@ -1,0 +1,73 @@
+{{- if .Values.nginx.autoscaling.enabled }}
+{{- $fullName := include "nginx-phpfpm.fullname" . -}}
+{{- $apiVersion := "autoscaling/v2" }}
+{{- if .Values.autoscaling.apiVersionOverride -}}
+  {{- $apiVersion = .Values.autoscaling.apiVersionOverride }}
+{{- else if .Capabilities.APIVersions.Has "autoscaling/v2beta1" }}
+  {{- $apiVersion = "autoscaling/v2beta1" }}
+{{- end }}
+apiVersion: {{ $apiVersion }}
+kind: HorizontalPodAutoscaler
+metadata:
+  name: {{ $fullName }}-nginx
+  labels:
+    {{- include "nginx-phpfpm.labels" . | nindent 4 }}
+    checksum/values: {{ toYaml .Values | sha256sum | trunc 20 | quote }}
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: {{ include "nginx-phpfpm.fullname" . }}-nginx
+  minReplicas: {{ .Values.nginx.autoscaling.minReplicas }}
+  maxReplicas: {{ .Values.nginx.autoscaling.maxReplicas }}
+  metrics:
+    {{- with .Values.nginx.autoscaling.requestsPerSecond }}
+    - type: Object
+      object: # https://kubernetes.io/docs/reference/generated/kubernetes-api/v1.26/#objectmetricsource-v2-autoscaling
+        describedObject:
+          apiVersion: networking.k8s.io/v1
+          kind: Ingress
+          name: {{ $fullName }}-nginx
+        metric:
+          name: {{ .name }}
+        target:
+          type: Value
+          value: {{ .value }}
+    {{- end }}
+    {{- with .Values.nginx.autoscaling.packetsPerSecond }}
+    - type: Pods
+      pods:
+        metric:
+          name: {{ .name }}
+        target:
+          type: AverageValue
+          averageValue: {{ .averageValue }}
+    {{- end }}
+    {{- with .Values.nginx.autoscaling.targetCPUUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: cpu
+        {{- if eq $apiVersion "autoscaling/v2beta1" }}
+        targetAverageUtilization: {{ . }}
+        {{- else }}
+        target:
+          averageUtilization: {{ . }}
+          type: Utilization
+        {{- end }}
+    {{- end }}
+    {{- with .Values.nginx.autoscaling.targetMemoryUtilizationPercentage }}
+    - type: Resource
+      resource:
+        name: memory
+        {{- if eq $apiVersion "autoscaling/v2beta1" }}
+        targetAverageUtilization: {{ . }}
+        {{- else }}
+        target:
+          averageUtilization: {{ . }}
+          type: Utilization
+        {{- end }}
+    {{- end }}
+  {{- with .Values.nginx.autoscaling.behaviour }}
+  behaviour: {{ toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
