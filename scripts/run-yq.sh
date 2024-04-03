@@ -33,10 +33,10 @@ ExtractUnique()
 ExtractCommon()
 {
     echo "Extracting common (key, value) pairs..."
-    f1path=`readlink -e "$1"`
-    f2path=`readlink -e "$2"`
-   # diff <(yq -P 'sort_keys(..)' -o=props file1.yaml) <(yq -P 'sort_keys(..)' -o=props file2.yaml)
-    yq eval-all 'select(fileIndex == 0 and . as '$f1path' | input | '$f1path' == .)' "$f1path" "$f2path"
+    f1path="$1"
+    f2path="$2"
+    diff <(yq -P 'sort_keys(..)' -o=props "$f1path") <(yq -P 'sort_keys(..)' -o=props $f2path)
+    #yq eval-all 'select(fileIndex == 0 and . as '$f1path' | input | '$f1path' == .)' "$f1path" "$f2path"
 }
 
 # Function to sort the files by key
