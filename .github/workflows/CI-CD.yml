@@ -2,9 +2,6 @@ name: RevealSecurity CI / CD - Branch Main
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-    - main
   
 jobs:
   deploy-helm-application:
