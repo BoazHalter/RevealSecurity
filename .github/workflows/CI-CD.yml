@@ -1,7 +1,9 @@
 name: RevealSecurity CI / CD
+
 on:
-  workflow_dispatch:
-  
+  pull_request:
+    branches:
+      - develop
 jobs:
   deploy-helm-application:
     timeout-minutes: 10
@@ -95,4 +97,3 @@ jobs:
     - name: Push Docker Image
       run: |
         docker push boazhalter/revealsecurity:latest
-        
