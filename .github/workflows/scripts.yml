@@ -20,9 +20,9 @@ jobs:
         run: |
           cd scripts
 
-          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlOne.yaml | sort > sorted_file1.txt
-          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlTwo.yaml | sort > sorted_file2.txt
-          diff sorted_file1.txt sorted_file2.txt
+          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlOne.yaml | sort > sorted_ymlOne.txt
+          yq eval 'paths(scalars) as [$p] | getpath($p) | "\($p|join(".")): \(.)"' ymlTwo.yaml | sort > sorted_ymlTwo.txt
+          diff sorted_ymlOne.txt sorted_ymlTwo.txt
 
           
 
