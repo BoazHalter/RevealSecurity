@@ -20,9 +20,7 @@ jobs:
         run: |
           cd scripts
           
-          yq eval-all 'select(fileIndex == 0) | paths(scalars) as $p | [ $p, getpath($p) ] | join(": ")' ymlOne.yaml | sort > keys_values_1.txt
-          yq eval-all 'select(fileIndex == 1) | paths(scalars) as $p | [ $p, getpath($p) ] | join(": ")' ymlTwo.yaml | sort > keys_values_2.txt
-          comm -12 keys_values_1.txt keys_values_2.txt
+          yq eval-all '. as $item | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | . as $line | input | paths(scalars) as $path | [$path, getpath($path)] | join(": ") | select(. == $line) | .[0]' yamlOne.yaml yamlTwo.yaml | sort | uniq -d
 
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
