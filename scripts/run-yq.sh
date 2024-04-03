@@ -38,10 +38,12 @@ ExtractCommon()
     MergeFiles "./ymlOne.yaml" "./ymlTwo.yaml"
     sort merged.yaml | uniq -c > mergeCounted.yaml
     cat  mergeCounted.yaml
-    #while read -r line; do 
-    #grep -v "^|" oldfile >> newfile; 
-    #done < diffOut.txt
-
+    while read -r line; do 
+        if [[ ${line:0:1} >= "2" ]];then
+            echo ${line:0:1} >> common.yaml
+        fi 
+    done < mergeCounted.yaml
+    cat common.yaml
 }
 
 # Function to sort the files by key
