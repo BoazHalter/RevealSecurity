@@ -19,7 +19,9 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml
+          diff -u <(yq eval-all '. as $item | select(type == "object") | keys_unsorted[] as $key | "\($key): \($item[$key])"' ymlOne.yaml | sort) <(yq eval-all '. as $item | select(type == "object") | keys_unsorted[] as $key | "\($key): \($item[$key])"' ymlTwo.yaml | sort) | grep '^ '
+
+        #  yq eval-all 'select(fileIndex == 0) * select(fileIndex == 1)' ymlOne.yaml ymlTwo.yaml
 
 
           #yq eval-all 'select(fileIndex == 0 and . as $file1 | input | $file1 == .)' ymlOne.yaml ymlTwo.yaml | yq eval-all 'select(fileIndex == 0)' - | yq eval 'del(.. | .foo?)' - | jq -s add
