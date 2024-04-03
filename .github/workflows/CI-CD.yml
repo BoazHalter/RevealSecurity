@@ -1,9 +1,7 @@
 name: RevealSecurity CI / CD
-
 on:
-  pull_request:
-    branches:
-      - develop
+  workflow_dispatch:
+  
 jobs:
   deploy-helm-application:
     timeout-minutes: 10
