@@ -38,7 +38,9 @@ jobs:
         minikube service nginx-phpfpm-node-port -n test --url
         EXT_IP=`minikube ip` 
         sleep 5
-        curl --connect-timeout 10 -vki "$EXT_IP:$NODE_PORT/index.php" 
+        curl --connect-timeout 10 -vki "$EXT_IP:$NODE_PORT/index.php"
+        echo "Application is Avilable At: $EXT_IP:$NODE_PORT/index.php"
+        
   
   build-and-push-application:
     timeout-minutes: 10
