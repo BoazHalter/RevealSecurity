@@ -35,7 +35,8 @@ jobs:
         NODE_PORT=`kubectl describe services -n test nginx-phpfpm-node-port | grep "NodePort:"  | awk '{print $3}'`
         NODE_PORT=${NODE_PORT::-4}
         kubectl cluster-info
-        EXT_IP=`minikube service nginx-phpfpm-node-port -n test --url`
+        minikube service nginx-phpfpm-node-port -n test --url
+        EXT_IP=`minikube ip` 
         sleep 5
         curl --connect-timeout 10 -vki "$EXT_IP:$NODE_PORT/index.php" 
   
