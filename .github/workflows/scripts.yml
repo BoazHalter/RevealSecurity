@@ -22,7 +22,7 @@ jobs:
           #yq eval-all 'sort_by(keys[]) | .' 
           yq -i -P 'sort_keys(..)' ./ymlOne.yaml 
           yq -i -P 'sort_keys(..)' ./ymlTwo.yaml
-          diff file1.yml file2.yml
+          diff ./ymlOne.yaml  ./ymlTwo.yaml
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
