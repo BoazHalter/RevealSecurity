@@ -19,11 +19,6 @@ jobs:
       - name: Run Script
         run: |
           cd scripts
-          yq --help
-          yq compare ./ymlOne.yaml ./ymlTwo.yaml || true
-          yq compare ymlOne.yaml ymlTwo.yaml 
-          yq eval-all 'select(fileIndex == 0 and . as "readlink -e ./ymlOne.yaml" | input | "readlink -e ./ymlOne.yaml" == .)' "readlink -e ./ymlOne.yaml" "readlink -e ./ymlTwo.yaml"
-          #yq -n 'load("./ymlOne.yaml") * load("./ymlTwo.yaml")'
           #bash run-yq.sh merge "./ymlOne.yaml" "./ymlTwo.yaml"
           #bash run-yq.sh unique "./ymlOne.yaml" "./ymlTwo.yaml"
           bash run-yq.sh common "./ymlOne.yaml" "./ymlTwo.yaml"
