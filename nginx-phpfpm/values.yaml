@@ -131,7 +131,7 @@ configMaps:
       index.php: |
         <html>
           <head>
-            <title>RevealSecurity</title>
+            <title>yaacov</title>
           </head>
             <body>
               <?php echo $word;?>
